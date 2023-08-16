@@ -97,10 +97,10 @@ except:
     login.show()
 
 heading=QLabel('The Pilot Diary',parent=window)
-heading.setFixedWidth(1400)
+heading.setFixedWidth(1350)
 heading.move(0,40)
 heading.setAlignment(QtCore.Qt.AlignCenter)
-heading.setStyleSheet("background:transparent;font-size:45px;font-weight:800")
+heading.setStyleSheet("background:rgba(255, 255, 255, 0.725);font-size:45px;font-weight:800;padding:8px;margin-left:50px;border-radius:10px")
 heading.show()
 
 infoareabar=QWidget(parent=window)
