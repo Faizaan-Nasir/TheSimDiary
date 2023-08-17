@@ -15,4 +15,4 @@ This is a python application made with the help of the following libraries:
 - PyQt5
 - MySQL Connector Python
 ## Goals 🎯
-- [ ] Automate creating a database
+- [x] Automate creating a database

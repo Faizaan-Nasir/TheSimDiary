@@ -23,7 +23,15 @@ def loginc():
     try:
         pwd=pwde.text()
         db=dbe.text()
-        con=sql.connect(host='localhost',user='root',password=pwd,database=db)
+        try:
+            con=sql.connect(host='localhost',user='root',password=pwd,database=db)
+        except:
+            con=sql.connect(host='localhost',user='root',password=pwd)
+            cur=con.cursor()
+            cur.execute('create database '+db)
+            con.close()
+            con=sql.connect(host='localhost',user='root',password=pwd,database=db)
+            
         passwordf=open('pwd.txt','x')
         passwordf.close()
         dbf=open('db.txt','x')
@@ -39,7 +47,8 @@ def loginc():
         cur=con.cursor()
         newdata()
         window.show()
-    except:
+    except Exception as e:
+        print(e)
         error=QLabel('Incorrect Credentials!',parent=login)
         error.setStyleSheet('color:#F04E4E;font-size:25px;font-weight:500')
         error.move(20,5)
@@ -81,7 +90,7 @@ except:
     dbl.move(30,170)
     dbl.show()
     
-    dbe=QLineEdit(parent=login)
+    dbe=QLineEdit('pilotdiary',parent=login)
     dbe.setFixedWidth(350)
     dbe.setPlaceholderText('enter db name here')
     dbe.setStyleSheet('font-size:25px;border:none;background:white;border-radius:10px;padding:10px')
