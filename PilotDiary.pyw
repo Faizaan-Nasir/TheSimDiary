@@ -112,15 +112,18 @@ infoareabar.show()
 
 tdistance=QLabel('Distance Flown: ')
 thours=QLabel('Hours: ')
-pname=QLabel('Pilot Name: ')
+flights=QLabel('Flights: ')
+upname=QLabel('Pilot Name: ')
 def repeat():
     global tdistance
     global thours
-    global upname
+    global nofl
     global uairc
     global uairline
     global uhub
+    global upname
     global pname
+    global flights
     try:
         cur.execute('select * from pInfo')
         data=cur.fetchall()
@@ -135,20 +138,14 @@ def repeat():
         uhub=''
         df=''
         fh=''
-    finally:
-        pname.deleteLater()
-        pname=QLabel('Pilot Name: '+upname,parent=window)
-        pname.move(0,130)
-        pname.setFixedWidth(1400)
-        pname.setAlignment(QtCore.Qt.AlignRight)
-        pname.setStyleSheet("background:transparent;font-size:30px;font-weight:600;margin-right:75px;")
-        pname.show()
     try:
         cur.execute('select * from flights;')
+        newdata=cur.fetchall()
+        nofl=len(newdata)
         tot=0
         hours=0
         mins=0
-        for i in cur.fetchall():
+        for i in newdata:
             tot+=int(i[-1])
             hours+=int(i[-2][0:2])
             mins+=int(i[-2][3:])
@@ -160,6 +157,7 @@ def repeat():
     except:
         df=''
         fh=''
+        nofl=0
     finally:
         tdistance.deleteLater()
         thours.deleteLater()
@@ -173,6 +171,13 @@ def repeat():
         thours.move(0,130)
         thours.setStyleSheet('font-weight:600;background:transparent;font-size:30px;margin-left:75px;')
         thours.show()
+        flights.deleteLater()
+        flights=QLabel('Total Flights: '+str(nofl),parent=window)
+        flights.move(0,130)
+        flights.setFixedWidth(1400)
+        flights.setAlignment(QtCore.Qt.AlignRight)
+        flights.setStyleSheet("background:transparent;font-size:30px;font-weight:600;margin-right:75px;")
+        flights.show()
     QTimer.singleShot(1000,repeat)
 repeat()
 
