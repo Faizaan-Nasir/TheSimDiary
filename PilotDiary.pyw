@@ -153,8 +153,8 @@ def repeat():
             hours+=int(i[-2][0:2])
             mins+=int(i[-2][3:])
         if mins>=60:
-            mins=mins%60
             hours+=mins//60
+            mins=mins%60
         df=str(tot)
         fh=str(hours)+' hrs '+str(mins)+' mins'
     except:
@@ -184,7 +184,6 @@ def editinfo():
     except:
         cur.execute('create table pInfo (name varchar(60),airc varchar(30),airline varchar(30),hub varchar(20));')
         con.commit()
-    window.hide()
     infotitle.show()
     infowin.show()
 
@@ -193,7 +192,6 @@ def submitinfo():
     cur.execute('insert into pInfo values("{}","{}","{}","{}")'.format(epinfoe.text(),airce.text(),airle.text(),hube.text()))
     con.commit()
     infowin.destroy()
-    window.show()
 infowin=QWidget()
 infowin.setWindowTitle('Edit Info')
 infowin.setWindowIcon(QtGui.QIcon('./src/icon.ico'))
