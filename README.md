@@ -16,3 +16,5 @@ This is a python application made with the help of the following libraries:
 - MySQL Connector Python
 ## Goals 🎯
 - [x] Automate creating a database
+## Changelog
+- Have added logbook
