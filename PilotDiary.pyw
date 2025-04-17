@@ -1,10 +1,22 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QLabel, QWidget, QPushButton, QFormLayout, QLineEdit, QScrollArea, QGridLayout, QVBoxLayout, QHBoxLayout
+from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5.QtCore import QTimer
 import mysql.connector as sql
 from datetime import datetime
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+from Statistics import Stats
+import haversine as hs   
+from haversine import Unit
+ 
+loc1=(19.0760, 72.8777)
+loc2=(18.5204, 73.8567)
+ 
+result=hs.haversine(loc1,loc2,unit=Unit.KILOMETERS)
+print("The distance calculated is:",result)
 
 app = QApplication([])
 
@@ -13,7 +25,7 @@ window.setWindowTitle("PilotDiary")
 window.setWindowIcon(QtGui.QIcon('./src/icon.ico'))
 window.setFixedWidth(1400)
 window.setFixedHeight(750)
-window.setStyleSheet('background:url("./src/background.jpeg") center')
+window.setStyleSheet('background:url("./src/background.jpg") center') 
 
 check=False
 
@@ -53,7 +65,7 @@ def loginc():
         error.setStyleSheet('color:#F04E4E;font-size:25px;font-weight:500')
         error.move(20,5)
         error.show()
-    
+
 try:
     pwd=open('pwd.txt','r').read()
     db=open('db.txt','r').read()
@@ -104,6 +116,9 @@ except:
     submit.show()
     
     login.show()
+
+win=Stats(con)
+win.show() 
 
 heading=QLabel('The Pilot Diary',parent=window)
 heading.setFixedWidth(1350)
@@ -203,8 +218,11 @@ def editinfo():
 
 # declaration of info window to be shown later
 def submitinfo():
-    cur.execute('insert into pInfo values("{}","{}","{}","{}")'.format(epinfoe.text(),airce.text(),airle.text(),hube.text()))
-    con.commit()
+    try:
+        cur.execute('insert into pInfo values("{}","{}","{}","{}")'.format(epinfoe.text(),airce.text(),airle.text(),hube.text()))
+        con.commit()
+    except Exception as e:
+        mbox=QMessageBox.critical(newlog,"Error!","You have entered incorrect format")
     infowin.destroy()
 infowin=QWidget()
 infowin.setWindowTitle('Edit Info')
@@ -381,8 +399,19 @@ def newdata():
 def addflight():
     newfl.show()
 def subflight():
-    cur.execute('insert into flights values("{}","{}","{}","{}","{}","{}");'.format(callsie.text(),aircue.text(),depare.text(),arrie.text(),airtie.text(),distane.text()))
-    con.commit()
+    df=pd.read_csv("./src/airport-codes.csv")
+    coor1=df.coordinates[df.icao_code==depare.text()].iloc[0].split(',')
+    coor2=df.coordinates[df.icao_code==arrie.text()].iloc[0].split(',')
+    coor1[0]=float(coor1[0])
+    coor1[1]=float(coor1[1])
+    coor2[0]=float(coor2[0])
+    coor2[1]=float(coor2[1])
+    result=int(hs.haversine(coor1,coor2,unit=Unit.KILOMETERS))
+    try:
+        cur.execute('insert into flights values("{}","{}","{}","{}","{}","{}");'.format(callsie.text(),aircue.text(),depare.text(),arrie.text(),airtie.text(),result))
+        con.commit()
+    except:
+        mbox=QMessageBox.critical(newlog,"Error!","You have entered incorrect format")
     newdata()
     newfl.hide()
 
@@ -600,8 +629,11 @@ def logbook():
     tablearealog.show()
     
     def submlog():
-        cur.execute('insert into log values("{}","{}","{}","{}");'.format(datee.text(),ace.text(),rege.text(),come.text()))
-        con.commit()
+        try:
+            cur.execute('insert into log values("{}","{}","{}","{}");'.format(datee.text(),ace.text(),rege.text(),come.text()))
+            con.commit()
+        except:
+            mbox=QMessageBox.critical(newlog,"Error!","You have entered incorrect format")
         newlog.hide()
     newlog=QWidget()
     newlog.setWindowIcon(QtGui.QIcon('./src/icon.ico'))
@@ -680,7 +712,7 @@ tablearea.setLayout(grid)
 if check:
     pass
 else:
-    window.show()
+    # window.show()
     newdata()
 
 appexe=app.exec()
