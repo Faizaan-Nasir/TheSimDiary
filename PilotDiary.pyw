@@ -117,7 +117,7 @@ except:
     
     login.show()
 
-win=Stats(con)
+win=Stats()
 win.show() 
 
 heading=QLabel('The Pilot Diary',parent=window)

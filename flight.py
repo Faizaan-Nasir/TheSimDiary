@@ -25,7 +25,7 @@ class Flight(QWidget):
         self.aircrafts=aircrafts
         self.setFixedSize(400,300)
 
-        self.PrevFileTitle=QLabel(text=f"{self.df.callsign[self.df.dep.count()-1]}",parent=self)
+        self.PrevFileTitle=QLabel(text=f"{self.df.callsign}",parent=self)
         self.PrevFileTitle.setStyleSheet("background:rgba(255, 255, 255, 0.0);font-size:30px;font-weight:600;color:#515151")
         self.PrevFileTitle.setFixedWidth(400)
         self.PrevFileTitle.setAlignment(QtCore.Qt.AlignCenter)
@@ -37,43 +37,45 @@ class Flight(QWidget):
         self.image.move(0,100)
         self.image.setFixedWidth(400)
         self.image.setAlignment(QtCore.Qt.AlignCenter)
-        self.image.setStyleSheet("background:rgb(0,0,0,0)")
+        self.image.setStyleSheet("background:rgba(0,0,0,0)")
 
         # print(self.df)
-        self.origin=QLabel(text=f"{self.df.dep[self.df.dep.count()-1]}",parent=self)
+        self.origin=QLabel(text=f"{self.df.dep}",parent=self)
         self.origin.move(10,135)
         self.origin.setFixedWidth(160)
         self.origin.setAlignment(QtCore.Qt.AlignCenter)
         self.origin.setStyleSheet("background:rgba(255, 255, 255, 0);font-size:20px;font-weight:800;color:#515151")
 
-        self.originName=QLabel(text=f"({self.airports.iata_code[self.airports.icao_code == self.df.dep[self.df.dep.count() - 1]].iloc[0]})",parent=self)
+        self.originName=QLabel(text=f"({self.airports.iata_code[self.airports.icao_code == self.df.dep].iloc[0]})",parent=self)
         self.originName.setWordWrap(True)
         self.originName.move(10,165)
         self.originName.setFixedWidth(160)
         self.originName.setAlignment(QtCore.Qt.AlignCenter)
         self.originName.setStyleSheet("background:rgba(255, 255, 255, 0);font-size:15px;font-weight:800;color:#515151")
 
-        self.dest=QLabel(text=f"{self.df.arr[self.df.dep.count()-1]}",parent=self)
+        self.dest=QLabel(text=f"{self.df.arr}",parent=self)
         self.dest.move(230,135)
         self.dest.setFixedWidth(160)
         self.dest.setAlignment(QtCore.Qt.AlignCenter)
         self.dest.setStyleSheet("background:rgba(255, 255, 255, 0);font-size:20px;font-weight:800;color:#515151")
 
-        self.destName=QLabel(text=f"({self.airports.iata_code[self.airports.icao_code == self.df.arr[self.df.dep.count() - 1]].iloc[0]})",parent=self)
+        self.destName=QLabel(text=f"({self.airports.iata_code[self.airports.icao_code == self.df.arr].iloc[0]})",parent=self)
         self.destName.setWordWrap(True)
         self.destName.move(230,165)
         self.destName.setFixedWidth(160)
         self.destName.setAlignment(QtCore.Qt.AlignCenter)
         self.destName.setStyleSheet("background:rgba(255, 255, 255, 0);font-size:15px;font-weight:800;color:#515151")
 
-        dftime=self.df.time[self.df.dep.count()-1]
-        self.time=QLabel(text=f"({dftime[:dftime.find(':')].lstrip('0')} hrs {dftime[dftime.find(':')+1:].lstrip('0')} mins)",parent=self)
+        dftime=self.df.time
+        self.time=QLabel(text=f"({dftime[:dftime.find(':')]} hrs {dftime[dftime.find(':')+1:]} mins)",parent=self)
         self.time.move(0,212)
         self.time.setFixedWidth(400)
         self.time.setAlignment(QtCore.Qt.AlignCenter)
         self.time.setStyleSheet("background:rgba(255, 255, 255, 0);font-size:18px;font-weight:400;color:#515151")
 
-        self.aircraftType=QLabel(text=self.aircrafts.name[self.aircrafts.icao==self.df.aircraft[self.df.dep.count()-1]].iloc[0],parent=self)
+        
+        aircraft_name = self.aircrafts.name[self.aircrafts.icao == self.df.aircraft].iloc[0]
+        self.aircraftType = QLabel(text=aircraft_name, parent=self)
         self.aircraftType.setFixedWidth(400)
         self.aircraftType.move(0,240)
         self.aircraftType.setAlignment(QtCore.Qt.AlignCenter)

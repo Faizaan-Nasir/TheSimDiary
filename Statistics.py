@@ -19,17 +19,17 @@ import os
 import urllib
 from flight import Flight
 from info import Info
+from allFlights import AllFlights
+from weather import Weather
 
 base_dir = os.path.dirname(__file__)
 
 class Stats(QWidget):
-    def __init__(self,con):
+    def __init__(self):
         super().__init__()
-        self.con=con
         self.airports=pd.read_csv("./src/airport-codes.csv")
         self.aircrafts=pd.read_csv("./src/ICAOList.csv", encoding='latin1')
-        query="select * from flights;"
-        self.df=pd.read_sql(query,self.con)
+        self.df=pd.read_csv("./src/data.csv")
         self.setWindowTitle("Pilot Diary")
         self.setFixedWidth(1400)
         self.setFixedHeight(750)
@@ -71,7 +71,7 @@ class Stats(QWidget):
         self.background.setStyleSheet("QWidget { background: rgba(255, 255, 255, 0.725); border-radius: 10px; }")
         self.background.move(665,125)
 
-        self.PrevFlight=Flight(self.df,self.airports,self.aircrafts,parent=self.background)
+        self.PrevFlight=Flight(self.df.loc[self.df.dep.count()-1],self.airports,self.aircrafts,parent=self.background)
         
         self.buttonBox=QWidget(self)
         self.buttonBox.setFixedSize(270,300)
@@ -93,6 +93,7 @@ class Stats(QWidget):
         self.showDB.move(20,20)
         self.showDB.setFixedSize(230,50)
         self.showDB.setStyleSheet(buttonStyleSheet)
+        self.showDB.clicked.connect(self.openAllFlight)
 
         self.showLB=QPushButton(text="Log Book",parent=self.buttonBox)
         self.showLB.move(20,90)
@@ -108,7 +109,7 @@ class Stats(QWidget):
         self.showWeather.move(20,230)
         self.showWeather.setFixedSize(230,50)
         self.showWeather.setStyleSheet(buttonStyleSheet)
-        # self.showWeather.clicked.connect()
+        self.showWeather.clicked.connect(self.weather)
 
         self.clockBox=QWidget(self)
         self.clockBox.setFixedSize(280,280)
@@ -124,7 +125,6 @@ class Stats(QWidget):
         self.utc=Clock(parent=self.clockBox)
         self.utc.setFixedSize(150,150)
         self.utc.move(65,65)
-        self.updateTime()
         
         self.utcTitle=QLabel("UTC Time",self.clockBox)
         self.utcTitle.move(0,30)
@@ -137,7 +137,34 @@ class Stats(QWidget):
         self.infoBar.move(960,440)
         self.infoBar.setStyleSheet("QWidget { background: rgba(255, 255, 255, 0.725); border-radius: 10px; }")
 
-        self.info=Info(self.con,self.airports,self.aircrafts,self.df,parent=self.infoBar)   
+        self.info=Info(self.airports,self.aircrafts,self.df,parent=self.infoBar)  
+        self.updateTime() 
+        self.updateInfo()
+    
+    def openAllFlight(self):
+        self.allFlights=AllFlights(self.df)
+        self.allFlights.show()
+
+    def weather(self):
+        self.weatherWin=Weather(self.airports)
+        self.weatherWin.show()
+
+    def updateInfo(self):
+        self.df=pd.read_csv("./src/data.csv")
+        self.numFlights.deleteLater()
+        self.numFlights=QLabel(text=str(self.df.aircraft.count()),parent=self.GraphArea)
+        self.numFlights.setFixedWidth(600)
+        self.numFlights.move(0,280)
+        self.numFlights.setAlignment(QtCore.Qt.AlignCenter)
+        self.numFlights.setStyleSheet("background:rgba(255, 255, 255, 0.0);font-size:35px;font-weight:800;border-radius:10px;color:#727272")
+        self.numFlights.show()
+        self.info.deleteLater()
+        self.PrevFlight.deleteLater()
+        self.PrevFlight=Flight(self.df.loc[self.df.dep.count()-1],self.airports,self.aircrafts,parent=self.background)
+        self.info=Info(self.airports,self.aircrafts,self.df,parent=self.infoBar) 
+        self.info.show()
+        self.PrevFlight.show()
+        QTimer.singleShot(10000,self.updateInfo)
 
     def updateTime(self):
         self.utcTime.deleteLater()

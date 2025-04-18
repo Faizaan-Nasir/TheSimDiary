@@ -1,2 +1,4 @@
 pwd.txt
 db.txt
+__pycache__/*
+src/data.csv

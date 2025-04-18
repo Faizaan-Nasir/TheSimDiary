@@ -20,9 +20,8 @@ import urllib
 from flight import Flight
 
 class Info(QWidget):
-    def __init__(self,con,airports,aircrafts,df,**kwargs):
+    def __init__(self,airports,aircrafts,df,**kwargs):
         super().__init__(**kwargs)
-        self.con=con
         self.airports=airports
         self.aircrafts=aircrafts
         self.setFixedSize(390,280)
@@ -45,17 +44,17 @@ class Info(QWidget):
         self.infoLabel.move(20,78)
         self.infoLabel.setStyleSheet("background:rgba(255, 255, 255, 0);font-size:20px;font-weight:600;color:#515151")
 
-        cur=self.con.cursor()
-        cur.execute('select * from flights;')
-        newdata=cur.fetchall()
+        # cur.execute('select * from flights;')
+        newdata=self.df
         nofl=len(newdata)
         tot=0
         hours=0
         mins=0
-        for i in newdata:
-            tot+=int(i[-1])
-            hours+=int(i[-2][0:2])
-            mins+=int(i[-2][3:])
+        for i in self.df.index:
+            # print(self.df.loc[i]["distance"])
+            tot+=int(self.df.loc[i]["distance"])
+            hours+=int(self.df.loc[i]["time"][0:self.df.loc[i]["time"].find(":")])
+            mins+=int(self.df.loc[i]["time"][self.df.loc[i]["time"].find(":")+1:])
         if mins>=60:
             hours+=mins//60
             mins=mins%60
