@@ -21,6 +21,7 @@ from flight import Flight
 from info import Info
 from allFlights import AllFlights
 from weather import Weather
+from log import logBook
 
 base_dir = os.path.dirname(__file__)
 
@@ -29,7 +30,18 @@ class Stats(QWidget):
         super().__init__()
         self.airports=pd.read_csv("./src/airport-codes.csv")
         self.aircrafts=pd.read_csv("./src/ICAOList.csv", encoding='latin1')
-        self.df=pd.read_csv("./src/data.csv")
+        try:
+            self.df=pd.read_csv("./src/data.csv")
+        except FileNotFoundError:
+            df=pd.DataFrame({"callsign":["SAMPLE"],
+                "aircraft":["B738"],
+                "dep":["PHOG"],
+                "arr":["PHNL"],
+                "time":["00:20"],
+                "distance":[151]})
+            df.to_csv("./src/data.csv",index=False)
+            self.df=df
+
         self.setWindowTitle("Pilot Diary")
         self.setFixedWidth(1400)
         self.setFixedHeight(750)
@@ -99,6 +111,7 @@ class Stats(QWidget):
         self.showLB.move(20,90)
         self.showLB.setFixedSize(230,50)
         self.showLB.setStyleSheet(buttonStyleSheet)
+        self.showLB.clicked.connect(self.openLogBook)
 
         self.pilotDetails=QPushButton(text="Pilot Details",parent=self.buttonBox)
         self.pilotDetails.move(20,160)
@@ -140,7 +153,11 @@ class Stats(QWidget):
         self.info=Info(self.airports,self.aircrafts,self.df,parent=self.infoBar)  
         self.updateTime() 
         self.updateInfo()
-    
+
+    def openLogBook(self):
+        self.logBook=logBook()
+        self.logBook.show()
+
     def openAllFlight(self):
         self.allFlights=AllFlights(self.df)
         self.allFlights.show()
@@ -193,3 +210,10 @@ class Stats(QWidget):
         ax.set_facecolor(None)
         ax.pie(temp,radius=1.15,colors=colors,labels=temp.index,wedgeprops={"linewidth": 1, "edgecolor": "white", 'antialiased': True,"width": 0.45},textprops={'fontsize': 12,'fontweight': 'bold', 'color': '#727272'})
         self.canvas.draw()
+
+if __name__=="__main__":
+    app = QApplication([])
+    window = Stats()
+    window.show()
+    appexe=app.exec()
+    sys.exit(appexe)

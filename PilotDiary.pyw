@@ -8,9 +8,10 @@ from datetime import datetime
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-from Statistics import Stats
 import haversine as hs   
 from haversine import Unit
+
+# DEPRECATED
  
 loc1=(19.0760, 72.8777)
 loc2=(18.5204, 73.8567)
