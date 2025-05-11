@@ -83,8 +83,17 @@ class Stats(QWidget):
         self.background.setStyleSheet("QWidget { background: rgba(255, 255, 255, 0.725); border-radius: 10px; }")
         self.background.move(665,125)
 
-        self.PrevFlight=Flight(self.df.loc[self.df.dep.count()-1],self.airports,self.aircrafts,parent=self.background)
-        
+        try:
+            self.PrevFlight=Flight(self.df.loc[self.df.dep.count()-1],self.airports,self.aircrafts,parent=self.background)
+        except:
+            df=pd.DataFrame({"callsign":["SAMPLE"],
+                "aircraft":["B738"],
+                "dep":["PHOG"],
+                "arr":["PHNL"],
+                "time":["00:20"],
+                "distance":[151]})
+            self.PrevFlight=Flight(df.iloc[0],self.airports,self.aircrafts,parent=self.background)
+
         self.buttonBox=QWidget(self)
         self.buttonBox.setFixedSize(270,300)
         self.buttonBox.move(1080,125)
@@ -150,7 +159,16 @@ class Stats(QWidget):
         self.infoBar.move(960,440)
         self.infoBar.setStyleSheet("QWidget { background: rgba(255, 255, 255, 0.725); border-radius: 10px; }")
 
-        self.info=Info(self.airports,self.aircrafts,self.df,parent=self.infoBar)  
+        try:
+            self.info=Info(self.airports,self.aircrafts,self.df,parent=self.infoBar)
+        except:
+            df=pd.DataFrame({"callsign":["SAMPLE"],
+                "aircraft":["B738"],
+                "dep":["PHOG"],
+                "arr":["PHNL"],
+                "time":["00:20"],
+                "distance":[151]})
+            self.info=Info(self.airports,self.aircrafts,df,parent=self.infoBar)
         self.updateTime() 
         self.updateInfo()
 
@@ -177,8 +195,18 @@ class Stats(QWidget):
         self.numFlights.show()
         self.info.deleteLater()
         self.PrevFlight.deleteLater()
-        self.PrevFlight=Flight(self.df.loc[self.df.dep.count()-1],self.airports,self.aircrafts,parent=self.background)
-        self.info=Info(self.airports,self.aircrafts,self.df,parent=self.infoBar) 
+        try:
+            self.PrevFlight=Flight(self.df.loc[self.df.dep.count()-1],self.airports,self.aircrafts,parent=self.background)
+            self.info=Info(self.airports,self.aircrafts,self.df,parent=self.infoBar) 
+        except:
+            df=pd.DataFrame({"callsign":["SAMPLE"],
+                "aircraft":["B738"],
+                "dep":["PHOG"],
+                "arr":["PHNL"],
+                "time":["00:20"],
+                "distance":[151]})
+            self.PrevFlight=Flight(df.iloc[0],self.airports,self.aircrafts,parent=self.background)
+            self.info=Info(self.airports,self.aircrafts,df,parent=self.infoBar)         
         self.info.show()
         self.PrevFlight.show()
         QTimer.singleShot(10000,self.updateInfo)

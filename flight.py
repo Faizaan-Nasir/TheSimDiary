@@ -21,6 +21,7 @@ class Flight(QWidget):
     def __init__(self,df,airports,aircrafts,**kwargs):
         super().__init__(**kwargs)
         self.df=df
+        # print(type(df))
         self.airports=airports
         self.aircrafts=aircrafts
         self.setFixedSize(400,300)

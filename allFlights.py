@@ -54,8 +54,17 @@ class AllFlights(QWidget):
         self.background.setStyleSheet("QWidget { background: rgba(255, 255, 255, 0.725); border-radius: 10px; }")
         self.background.move(50,125)
 
-        print(self.df.loc[self.df.dep.count()-1])
-        self.flight=Flight(self.df.loc[self.df.dep.count()-1],self.airports,self.aircrafts,parent=self.background)
+        # print(self.df.loc[self.df.dep.count()-1])
+        try:
+            self.flight=Flight(self.df.loc[self.df.dep.count()-1],self.airports,self.aircrafts,parent=self.background)
+        except:
+            df=pd.DataFrame({"callsign":["SAMPLE"],
+                "aircraft":["B738"],
+                "dep":["PHOG"],
+                "arr":["PHNL"],
+                "time":["00:20"],
+                "distance":[151]})
+            self.flight=Flight(df.iloc[0],self.airports,self.aircrafts,parent=self.background)
 
         self.tableArea=QWidget(self)
         self.tableArea.setFixedSize(885,595)
@@ -272,7 +281,16 @@ class AllFlights(QWidget):
 
     def allFlights(self):
         self.flight.deleteLater()
-        self.flight=Flight(self.df.loc[self.df.dep.count()-1],self.airports,self.aircrafts,parent=self.background)
+        try:
+            self.flight=Flight(self.df.loc[self.df.dep.count()-1],self.airports,self.aircrafts,parent=self.background)
+        except:
+            df=pd.DataFrame({"callsign":["SAMPLE"],
+                "aircraft":["B738"],
+                "dep":["PHOG"],
+                "arr":["PHNL"],
+                "time":["00:20"],
+                "distance":[151]})
+            self.flight=Flight(df.iloc[0],self.airports,self.aircrafts,parent=self.background)
         self.flight.show()
         self.searchAC.clear()
         self.searchAP.clear()

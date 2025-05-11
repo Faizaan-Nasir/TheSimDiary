@@ -44,7 +44,7 @@ def loginc():
             cur.execute('create database '+db)
             con.close()
             con=sql.connect(host='localhost',user='root',password=pwd,database=db)
-            
+
         passwordf=open('pwd.txt','x')
         passwordf.close()
         dbf=open('db.txt','x')
@@ -72,6 +72,8 @@ try:
     db=open('db.txt','r').read()
     con=sql.connect(host='localhost',user='root',password=pwd,database=db)
     cur=con.cursor()
+    df=pd.read_sql("select * from flights;",con)
+    df.to_csv("./src/data.csv",index=False)
 except:
     check=True
     login=QWidget()
@@ -118,8 +120,8 @@ except:
     
     login.show()
 
-win=Stats()
-win.show() 
+# win=Stats()
+# win.show() 
 
 heading=QLabel('The Pilot Diary',parent=window)
 heading.setFixedWidth(1350)
@@ -713,7 +715,7 @@ tablearea.setLayout(grid)
 if check:
     pass
 else:
-    # window.show()
+    window.show()
     newdata()
 
 appexe=app.exec()

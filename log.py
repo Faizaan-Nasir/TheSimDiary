@@ -211,52 +211,60 @@ class logBook(QWidget):
 
     def addNewRec(self):
         self.addRec=QWidget()
-        self.addRec.setFixedSize(300,390)
+        self.addRec.setFixedSize(300,450)
         self.addRec.setWindowTitle("Add Record")
         self.addRec.setWindowIcon(QtGui.QIcon('./src/icon.ico'))
+
+        self.dateEdit=QLineEdit(parent=self.addRec)
+        self.dateEdit.setStyleSheet('font-size:20px;border:none;background:#A4A4A4;border-radius:10px;padding:10px;color:white;font-weight:400;')
+        self.dateEdit.setAlignment(QtCore.Qt.AlignCenter)
+        self.dateEdit.setFixedWidth(230)
+        self.dateEdit.move(35,20)
+        self.dateEdit.setPlaceholderText('date')
+        self.dateEdit.setFocusPolicy(QtCore.Qt.ClickFocus)
+
+        self.modEdit=QLineEdit(parent=self.addRec)
+        self.modEdit.setStyleSheet('font-size:20px;border:none;background:#A4A4A4;border-radius:10px;padding:10px;color:white;font-weight:400;')
+        self.modEdit.setAlignment(QtCore.Qt.AlignCenter)
+        self.modEdit.setFixedWidth(230)
+        self.modEdit.move(35,81)
+        self.modEdit.setPlaceholderText('mod')
+        self.modEdit.setFocusPolicy(QtCore.Qt.ClickFocus)
+
+        self.ftEdit=QLineEdit(parent=self.addRec)
+        self.ftEdit.setStyleSheet('font-size:20px;border:none;background:#A4A4A4;border-radius:10px;padding:10px;color:white;font-weight:400;')
+        self.ftEdit.setAlignment(QtCore.Qt.AlignCenter)
+        self.ftEdit.setFixedWidth(230)
+        self.ftEdit.move(35,142)
+        self.ftEdit.setPlaceholderText('failure type')
+        self.ftEdit.setFocusPolicy(QtCore.Qt.ClickFocus)
+
+        self.statusEdit=QLineEdit(parent=self.addRec)
+        self.statusEdit.setStyleSheet('font-size:20px;border:none;background:#A4A4A4;border-radius:10px;padding:10px;color:white;font-weight:400;')
+        self.statusEdit.setAlignment(QtCore.Qt.AlignCenter)
+        self.statusEdit.setFixedWidth(230)
+        self.statusEdit.move(35,203)
+        self.statusEdit.setPlaceholderText('status')
+        self.statusEdit.setFocusPolicy(QtCore.Qt.ClickFocus)
+
+        self.simEdit=QLineEdit(parent=self.addRec)
+        self.simEdit.setStyleSheet('font-size:20px;border:none;background:#A4A4A4;border-radius:10px;padding:10px;color:white;font-weight:400;')
+        self.simEdit.setAlignment(QtCore.Qt.AlignCenter)
+        self.simEdit.setFixedWidth(230)
+        self.simEdit.move(35,264)
+        self.simEdit.setPlaceholderText('simulator')
+        self.simEdit.setFocusPolicy(QtCore.Qt.ClickFocus)
 
         self.csEdit=QLineEdit(parent=self.addRec)
         self.csEdit.setStyleSheet('font-size:20px;border:none;background:#A4A4A4;border-radius:10px;padding:10px;color:white;font-weight:400;')
         self.csEdit.setAlignment(QtCore.Qt.AlignCenter)
         self.csEdit.setFixedWidth(230)
-        self.csEdit.move(35,20)
+        self.csEdit.move(35,325)
         self.csEdit.setPlaceholderText('callsign')
         self.csEdit.setFocusPolicy(QtCore.Qt.ClickFocus)
 
-        self.acEdit=QLineEdit(parent=self.addRec)
-        self.acEdit.setStyleSheet('font-size:20px;border:none;background:#A4A4A4;border-radius:10px;padding:10px;color:white;font-weight:400;')
-        self.acEdit.setAlignment(QtCore.Qt.AlignCenter)
-        self.acEdit.setFixedWidth(230)
-        self.acEdit.move(35,81)
-        self.acEdit.setPlaceholderText('aircraft')
-        self.acEdit.setFocusPolicy(QtCore.Qt.ClickFocus)
-
-        self.depEdit=QLineEdit(parent=self.addRec)
-        self.depEdit.setStyleSheet('font-size:20px;border:none;background:#A4A4A4;border-radius:10px;padding:10px;color:white;font-weight:400;')
-        self.depEdit.setAlignment(QtCore.Qt.AlignCenter)
-        self.depEdit.setFixedWidth(230)
-        self.depEdit.move(35,142)
-        self.depEdit.setPlaceholderText('departure')
-        self.depEdit.setFocusPolicy(QtCore.Qt.ClickFocus)
-
-        self.arrEdit=QLineEdit(parent=self.addRec)
-        self.arrEdit.setStyleSheet('font-size:20px;border:none;background:#A4A4A4;border-radius:10px;padding:10px;color:white;font-weight:400;')
-        self.arrEdit.setAlignment(QtCore.Qt.AlignCenter)
-        self.arrEdit.setFixedWidth(230)
-        self.arrEdit.move(35,203)
-        self.arrEdit.setPlaceholderText('arrival')
-        self.arrEdit.setFocusPolicy(QtCore.Qt.ClickFocus)
-
-        self.timeEdit=QLineEdit(parent=self.addRec)
-        self.timeEdit.setStyleSheet('font-size:20px;border:none;background:#A4A4A4;border-radius:10px;padding:10px;color:white;font-weight:400;')
-        self.timeEdit.setAlignment(QtCore.Qt.AlignCenter)
-        self.timeEdit.setFixedWidth(230)
-        self.timeEdit.move(35,264)
-        self.timeEdit.setPlaceholderText('airtime')
-        self.timeEdit.setFocusPolicy(QtCore.Qt.ClickFocus)
-
         self.submitRec=QPushButton(text="Submit",parent=self.addRec)
-        self.submitRec.move(35,325)
+        self.submitRec.move(35,386)
         self.submitRec.setFixedSize(230,46)
         self.submitRec.setStyleSheet(self.buttonStyleSheet)
         self.submitRec.clicked.connect(self.submitRecord)
@@ -265,25 +273,25 @@ class logBook(QWidget):
 
     def submitRecord(self):
         try:
-            print(self.aircrafts[self.aircrafts.icao==self.acEdit.text()].iloc[0])
-            print(self.airports[self.airports.icao_code==self.arrEdit.text()].iloc[0])
-            print(self.airports[self.airports.icao_code==self.depEdit.text()].iloc[0])
-            coor1=self.airports.coordinates[self.airports.icao_code==self.depEdit.text()].iloc[0].split(',')
-            coor2=self.airports.coordinates[self.airports.icao_code==self.arrEdit.text()].iloc[0].split(',')
-            coor1[0]=float(coor1[0])
-            coor1[1]=float(coor1[1])
-            coor2[0]=float(coor2[0])
-            coor2[1]=float(coor2[1])
-            result=int(hs.haversine(coor1,coor2,unit=Unit.KILOMETERS))
+            # print(self.aircrafts[self.aircrafts.icao==self.acEdit.text()].iloc[0])
+            # print(self.airports[self.airports.icao_code==self.arrEdit.text()].iloc[0])
+            # print(self.airports[self.airports.icao_code==self.depEdit.text()].iloc[0])
+            # coor1=self.airports.coordinates[self.airports.icao_code==self.depEdit.text()].iloc[0].split(',')
+            # coor2=self.airports.coordinates[self.airports.icao_code==self.arrEdit.text()].iloc[0].split(',')
+            # coor1[0]=float(coor1[0])
+            # coor1[1]=float(coor1[1])
+            # coor2[0]=float(coor2[0])
+            # coor2[1]=float(coor2[1])
+            # result=int(hs.haversine(coor1,coor2,unit=Unit.KILOMETERS))
             self.df=pd.concat([self.df,pd.DataFrame([{
-                "callsign":self.csEdit.text(),
-                "aircraft":self.acEdit.text(),
-                "dep":self.depEdit.text(),
-                "arr":self.arrEdit.text(),
-                "time":self.timeEdit.text(),
-                "distance":int(result)
+                "date":self.dateEdit.text(),
+                "mod":self.modEdit.text(),
+                "failure_type":self.ftEdit.text(),
+                "status":self.statusEdit.text(),
+                "sim":self.simEdit.text(),
+                "callsign":self.csEdit.text()
             }])],ignore_index=True)
-            self.df.to_csv("./src/data.csv",index=False)
+            self.df.to_csv("./src/log.csv",index=False)
             self.allFlights()
         except Exception as e:
             self.exception=QMessageBox.critical(self.addRec,"Error!","Incorrect entry in one or more field(s).")
@@ -292,7 +300,16 @@ class logBook(QWidget):
 
     def allFlights(self):
         self.flight.deleteLater()
-        self.flight=Flight(self.data[self.data.callsign==self.df.callsign.loc[self.df.callsign.count()-1]].iloc[0],self.airports,self.aircrafts,parent=self.background)
+        try:
+            self.flight=Flight(self.data[self.data.callsign==self.df.callsign.loc[self.df.callsign.count()-1]].loc[self.data.dep.count()-1],self.airports,self.aircrafts,parent=self.background)
+        except:
+            df=pd.DataFrame({"callsign":["SAMPLE"],
+                "aircraft":["B738"],
+                "dep":["PHOG"],
+                "arr":["PHNL"],
+                "time":["00:20"],
+                "distance":[151]})
+            self.flight=Flight(df.iloc[0],self.airports,self.aircrafts,parent=self.background)
         self.flight.show()
         self.searchMod.clear()
         self.searchStatus.clear()
@@ -322,9 +339,9 @@ class logBook(QWidget):
     def searchCallsign(self):
         try:
             print(self.df[self.df.callsign==self.searchCall.text()].iloc[0])
-            # self.flight.deleteLater()
-            # self.flight=Flight(self.df[self.df.callsign==self.searchCall.text()].iloc[0],self.airports,self.aircrafts,parent=self.background)
-            # self.flight.show()
+            self.flight.deleteLater()
+            self.flight=Flight(self.df[self.df.callsign==self.searchCall.text()].iloc[0],self.airports,self.aircrafts,parent=self.background)
+            self.flight.show()
             self.table.deleteLater()
             self.table=Table(self.df[self.df.callsign==self.searchCall.text()],parent=self.tableArea)
             self.table.show()
@@ -334,7 +351,7 @@ class logBook(QWidget):
         
         finally:
             self.searchMod.clear()
-            self.searchAP.clear()
+            self.searchStatus.clear()
 
     def byMod(self):
         try:
