@@ -428,6 +428,9 @@ class Table(QTableWidget):
             self.cs.setStyleSheet("background:rgba(255, 255, 255, 0);font-size:15px;font-weight:400;color:#515151;border-left:1px solid #515151;border-radius:0px;")
             self.cs.setAlignment(QtCore.Qt.AlignCenter)
             self.setCellWidget(self.rowCount()-1,5,self.cs)
+        
+        for i in range(self.rowCount()):
+            self.setRowHeight(i,50)
 
 if __name__=="__main__":
     df=pd.read_csv("./src/log.csv")
