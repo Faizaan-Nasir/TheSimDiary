@@ -1,23 +1,9 @@
-import sys
-import urllib.request
-from clock import Clock
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
-from PyQt5 import QtGui
-from PyQt5.QtCore import QTimer
-import mysql.connector as sql
-from datetime import datetime
-import pandas as pd
-import matplotlib.pyplot as plt
 import matplotlib
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 matplotlib.use('Qt5Agg')
 from PyQt5.QtGui import *
-import numpy as np
-import random
-import os
-import urllib
-from flight import Flight
 
 class Info(QWidget):
     def __init__(self,airports,aircrafts,df,**kwargs):
