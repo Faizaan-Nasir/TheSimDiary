@@ -29,7 +29,7 @@ class Weather(QWidget):
         self.airports=airports
         self.setWindowTitle("Pilot Diary")
         self.setFixedWidth(1400)
-        self.setFixedHeight(750)
+        self.setFixedHeight(760)
         pixmap = QPixmap(os.path.join(base_dir, 'src', 'background.jpg'))
         palette = self.palette()
         palette.setBrush(QPalette.Background, QBrush(pixmap))
@@ -41,12 +41,20 @@ class Weather(QWidget):
 
         self.showUI()
 
+    def funGoBack(self):
+        self.deleteLater()
+
     def showUI(self):
         self.heading=QLabel('Search Weather',parent=self)
         self.heading.setFixedWidth(1350)
         self.heading.move(0,40)
         self.heading.setAlignment(QtCore.Qt.AlignCenter)
         self.heading.setStyleSheet("background:rgba(255, 255, 255, 0.725);font-size:45px;font-weight:800;padding:8px;margin-left:50px;border-radius:10px;color:#515151")
+
+        self.goBack=QPushButton("< Go Back",parent=self)
+        self.goBack.move(80,57)
+        self.goBack.setStyleSheet("background:transparent;font-size:18px;font-weight:800;color:#515151")
+        self.goBack.clicked.connect(self.funGoBack)
 
         self.backdrop=QWidget(parent=self)
         self.backdrop.setStyleSheet("QWidget { background: rgba(255, 255, 255, 0.725); border-radius: 10px; }")

@@ -1,27 +1,14 @@
 import sys
-import urllib.request
-from clock import Clock
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
 from PyQt5 import QtGui
-from PyQt5.QtCore import QTimer
-import mysql.connector as sql
-from datetime import datetime
 import pandas as pd
-import matplotlib.pyplot as plt
 import matplotlib
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 matplotlib.use('Qt5Agg')
 from PyQt5.QtGui import *
-import numpy as np
-import random
 import os
-import urllib
 from flight import Flight
-from info import Info
-from metar import Metar
-import haversine as hs   
-from haversine import Unit
+
 
 base_dir = os.path.dirname(__file__)
 
@@ -30,7 +17,7 @@ class logBook(QWidget):
         super().__init__(**kwargs)
         self.setWindowTitle("Pilot Diary")
         self.setFixedWidth(1400)
-        self.setFixedHeight(750)
+        self.setFixedHeight(760)
         pixmap = QPixmap(os.path.join(base_dir, 'src', 'background.jpg'))
         palette = self.palette()
         palette.setBrush(QPalette.Background, QBrush(pixmap))
@@ -54,12 +41,20 @@ class logBook(QWidget):
 
         self.showUI()
     
+    def funGoBack(self):
+        self.deleteLater()
+
     def showUI(self):
         self.heading=QLabel('Log Book',parent=self)
         self.heading.setFixedWidth(1350)
         self.heading.move(0,40)
         self.heading.setAlignment(QtCore.Qt.AlignCenter)
         self.heading.setStyleSheet("background:rgba(255, 255, 255, 0.725);font-size:45px;font-weight:800;padding:8px;margin-left:50px;border-radius:10px;color:#515151")
+
+        self.goBack=QPushButton("< Go Back",parent=self)
+        self.goBack.move(80,57)
+        self.goBack.setStyleSheet("background:transparent;font-size:18px;font-weight:800;color:#515151")
+        self.goBack.clicked.connect(self.funGoBack)
 
         self.background=QWidget(self)
         self.background.setFixedSize(400,300)
