@@ -388,6 +388,7 @@ class Table(QTableWidget):
         self.setShowGrid(False)
         self.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.setSelectionMode(QAbstractItemView.NoSelection)
         
         textStyle='''background:rgba(255, 255, 255, 0);font-size:15px;font-weight:400;color:#515151;border-right:1px solid #515151;border-left:1px solid #515151;border-radius:0px;'''
 
