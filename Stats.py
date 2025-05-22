@@ -205,7 +205,8 @@ class Stats(QWidget):
                 "dep":["PHOG"],
                 "arr":["PHNL"],
                 "time":["00:20"],
-                "distance":[151]})
+                "distance":[151],
+                "date":["21/05/25"]})
             self.PrevFlight=Flight(df.iloc[0],self.airports,self.aircrafts,parent=self.background)
             self.info=Info(self.airports,self.aircrafts,df,parent=self.infoBar)         
         self.info.show()
