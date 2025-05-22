@@ -33,7 +33,8 @@ class Stats(QWidget):
                 "dep":["PHOG"],
                 "arr":["PHNL"],
                 "time":["00:20"],
-                "distance":[151]})
+                "distance":[151],
+                "date":["21/05/25"]})
             df.to_csv("./src/data.csv",index=False)
             self.df=df
 
