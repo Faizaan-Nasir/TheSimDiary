@@ -60,7 +60,8 @@ class AllFlights(QWidget):
                 "dep":["PHOG"],
                 "arr":["PHNL"],
                 "time":["00:20"],
-                "distance":[151]})
+                "distance":[151],
+                "date":["20/05/25"]})
             self.flight=Flight(df.iloc[0],self.airports,self.aircrafts,parent=self.background)
 
         self.tableArea=QWidget(self)
@@ -73,40 +74,46 @@ class AllFlights(QWidget):
         headerStyle='''background:rgba(255, 255, 255, 0);font-size:18px;font-weight:800;color:#515151;border-style: solid;border-radius:0px;border-width: 0px 1px 2px 1px;border-color:#515151;'''
         
         self.cs=QLabel(text="Callsign",parent=self.tableArea)
-        self.cs.setFixedSize(147,54)
+        self.cs.setFixedSize(126,54)
         self.cs.move(2,1)
         self.cs.setStyleSheet("background:rgba(255, 255, 255, 0);font-size:18px;font-weight:800;color:#515151;border-style: solid;border-radius:0px;border-width: 0px 1px 2px 0px;border-color:#515151;")
         self.cs.setAlignment(QtCore.Qt.AlignCenter)
 
         self.ac=QLabel(text="Aircraft",parent=self.tableArea)
-        self.ac.setFixedSize(147,54)
-        self.ac.move(149,1)
+        self.ac.setFixedSize(126,54)
+        self.ac.move(128,1)
         self.ac.setStyleSheet(headerStyle)
         self.ac.setAlignment(QtCore.Qt.AlignCenter)
 
         self.dep=QLabel(text="Departure",parent=self.tableArea)
-        self.dep.setFixedSize(147,54)
-        self.dep.move(296,1)
+        self.dep.setFixedSize(126,54)
+        self.dep.move(254,1)
         self.dep.setStyleSheet(headerStyle)
         self.dep.setAlignment(QtCore.Qt.AlignCenter)
 
         self.arr=QLabel(text="Arrival",parent=self.tableArea)
-        self.arr.setFixedSize(147,54)
-        self.arr.move(443,1)
+        self.arr.setFixedSize(126,54)
+        self.arr.move(380,1)
         self.arr.setStyleSheet(headerStyle)
         self.arr.setAlignment(QtCore.Qt.AlignCenter)
 
         self.time=QLabel(text="Time",parent=self.tableArea)
-        self.time.setFixedSize(147,54)
-        self.time.move(590,1)
+        self.time.setFixedSize(126,54)
+        self.time.move(506,1)
         self.time.setStyleSheet(headerStyle)
         self.time.setAlignment(QtCore.Qt.AlignCenter)
 
         self.dist=QLabel(text="Distance",parent=self.tableArea)
-        self.dist.setFixedSize(147,54)
-        self.dist.move(737,1)
-        self.dist.setStyleSheet("background:rgba(255, 255, 255, 0);font-size:18px;font-weight:800;color:#515151;border-style: solid;border-radius:0px;border-width: 0px 0px 2px 1px;border-color:#515151;")
+        self.dist.setFixedSize(126,54)
+        self.dist.move(632,1)
+        self.dist.setStyleSheet(headerStyle)
         self.dist.setAlignment(QtCore.Qt.AlignCenter)
+
+        self.date=QLabel(text="Date",parent=self.tableArea)
+        self.date.setFixedSize(126,54)
+        self.date.move(758,1)
+        self.date.setStyleSheet("background:rgba(255, 255, 255, 0);font-size:18px;font-weight:800;color:#515151;border-style: solid;border-radius:0px;border-width: 0px 0px 2px 1px;border-color:#515151;")
+        self.date.setAlignment(QtCore.Qt.AlignCenter)
 
         self.searchArea=QWidget(self)
         self.searchArea.setFixedSize(400,280)
@@ -197,7 +204,7 @@ class AllFlights(QWidget):
 
     def addNewRec(self):
         self.addRec=QWidget()
-        self.addRec.setFixedSize(300,390)
+        self.addRec.setFixedSize(300,452)
         self.addRec.setWindowTitle("Add Record")
         self.addRec.setWindowIcon(QtGui.QIcon('./src/icon.ico'))
 
@@ -241,8 +248,16 @@ class AllFlights(QWidget):
         self.timeEdit.setPlaceholderText('airtime')
         self.timeEdit.setFocusPolicy(QtCore.Qt.ClickFocus)
 
+        self.dateEdit=QLineEdit(parent=self.addRec)
+        self.dateEdit.setStyleSheet('font-size:20px;border:none;background:#A4A4A4;border-radius:10px;padding:10px;color:white;font-weight:400;')
+        self.dateEdit.setAlignment(QtCore.Qt.AlignCenter)
+        self.dateEdit.setFixedWidth(230)
+        self.dateEdit.move(35,325)
+        self.dateEdit.setPlaceholderText('date')
+        self.dateEdit.setFocusPolicy(QtCore.Qt.ClickFocus)
+
         self.submitRec=QPushButton(text="Submit",parent=self.addRec)
-        self.submitRec.move(35,325)
+        self.submitRec.move(35,386)
         self.submitRec.setFixedSize(230,46)
         self.submitRec.setStyleSheet(self.buttonStyleSheet)
         self.submitRec.clicked.connect(self.submitRecord)
@@ -267,7 +282,8 @@ class AllFlights(QWidget):
                 "dep":self.depEdit.text(),
                 "arr":self.arrEdit.text(),
                 "time":self.timeEdit.text(),
-                "distance":int(result)
+                "distance":int(result),
+                "date":self.dateEdit.text()
             }])],ignore_index=True)
             self.df.to_csv("./src/data.csv",index=False)
             self.allFlights()
@@ -286,7 +302,8 @@ class AllFlights(QWidget):
                 "dep":["PHOG"],
                 "arr":["PHNL"],
                 "time":["00:20"],
-                "distance":[151]})
+                "distance":[151],
+                "date":["20/05/25"]})
             self.flight=Flight(df.iloc[0],self.airports,self.aircrafts,parent=self.background)
         self.flight.show()
         self.searchAC.clear()
@@ -353,11 +370,11 @@ class Table(QTableWidget):
         super().__init__(**kwargs)
         self.df=df
         self.setRowCount(0)      # At least 1 row for your header
-        self.setColumnCount(6)   # 6 columns for your headers
+        self.setColumnCount(7)   # 7 columns for your headers
         self.setFixedSize(885,540)
         self.move(2,54)
-        for col in range(6):
-            self.setColumnWidth(col, 147)
+        for col in range(7):
+            self.setColumnWidth(col, 126)
         self.horizontalHeader().setVisible(False)
         self.verticalHeader().setVisible(False)
         self.setStyleSheet('''QWidget { background: rgba(255, 255, 255, 0); border-radius: 10px; }
@@ -377,40 +394,46 @@ class Table(QTableWidget):
         for i in range(self.df.arr.count()-1,-1,-1):
             self.insertRow(self.rowCount())
             self.cs=QLabel(text=self.df.callsign.iloc[i])
-            self.cs.setFixedSize(147,50)
+            self.cs.setFixedSize(126,50)
             self.cs.setStyleSheet("background:rgba(255, 255, 255, 0);font-size:15px;font-weight:400;color:#515151;border-right:1px solid #515151;border-radius:0px;")
             self.cs.setAlignment(QtCore.Qt.AlignCenter)
             self.setCellWidget(self.rowCount()-1,0,(self.cs))
 
             self.ac=QLabel(text=self.df.aircraft.iloc[i])
-            self.ac.setFixedSize(147,50)
+            self.ac.setFixedSize(126,50)
             self.ac.setStyleSheet(textStyle)
             self.ac.setAlignment(QtCore.Qt.AlignCenter)
             self.setCellWidget(self.rowCount()-1,1,(self.ac))
 
             self.dep=QLabel(text=self.df.dep.iloc[i])
-            self.dep.setFixedSize(147,50)
+            self.dep.setFixedSize(126,50)
             self.dep.setStyleSheet(textStyle)
             self.dep.setAlignment(QtCore.Qt.AlignCenter)
             self.setCellWidget(self.rowCount()-1,2,self.dep)
 
             self.arr=QLabel(text=self.df.arr.iloc[i])
-            self.arr.setFixedSize(147,50)
+            self.arr.setFixedSize(126,50)
             self.arr.setStyleSheet(textStyle)
             self.arr.setAlignment(QtCore.Qt.AlignCenter)
             self.setCellWidget(self.rowCount()-1,3,self.arr)
 
             self.time=QLabel(text=self.df.time.iloc[i])
-            self.time.setFixedSize(147,50)
+            self.time.setFixedSize(126,50)
             self.time.setStyleSheet(textStyle)
             self.time.setAlignment(QtCore.Qt.AlignCenter)
             self.setCellWidget(self.rowCount()-1,4,self.time)
 
             self.dist=QLabel(text=str(self.df.distance.iloc[i]))
-            self.dist.setFixedSize(147,50)
-            self.dist.setStyleSheet("background:rgba(255, 255, 255, 0);font-size:15px;font-weight:400;color:#515151;border-left:1px solid #515151;border-radius:0px;")
+            self.dist.setFixedSize(126,50)
+            self.dist.setStyleSheet(textStyle)
             self.dist.setAlignment(QtCore.Qt.AlignCenter)
             self.setCellWidget(self.rowCount()-1,5,self.dist)
+
+            self.date=QLabel(text=str(self.df.date.iloc[i]))
+            self.date.setFixedSize(126,50)
+            self.date.setStyleSheet("background:rgba(255, 255, 255, 0);font-size:15px;font-weight:400;color:#515151;border-left:1px solid #515151;border-radius:0px;")
+            self.date.setAlignment(QtCore.Qt.AlignCenter)
+            self.setCellWidget(self.rowCount()-1,6,self.date)
         
         for i in range(self.rowCount()):
             self.setRowHeight(i,50)

@@ -79,16 +79,16 @@ class Weather(QWidget):
         self.icao.setAlignment(QtCore.Qt.AlignCenter)
         self.icao.setFixedWidth(1300)
 
-        self.metar=QLabel("\n\n",parent=self.backdrop)
+        self.metar=QLabel("\n\n\n",parent=self.backdrop)
         self.metar.setStyleSheet("background:rgba(255, 255, 255, 0.0);font-size:28px;font-weight:400;color:#515151;border-radius:10px;padding:10px")
-        self.metar.move(0,275)
+        self.metar.move(150,275)
         self.metar.setWordWrap(True)
-        self.metar.setFixedWidth(1300)
+        self.metar.setFixedWidth(1000)
         self.metar.setAlignment(QtCore.Qt.AlignCenter)
 
         self.adEle=QLabel("",parent=self.backdrop)
         self.adEle.setStyleSheet("background:rgba(255, 255, 255, 0.0);font-size:28px;font-weight:600;color:#515151;border-radius:10px;")
-        self.adEle.move(0,390)
+        self.adEle.move(0,410)
         self.adEle.setAlignment(QtCore.Qt.AlignCenter)
         self.adEle.setFixedWidth(1300)
 

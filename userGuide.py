@@ -52,6 +52,14 @@ class Guide(QWidget):
         self.subheading1.setAlignment(QtCore.Qt.AlignCenter)
         self.subheading1.move(0,30)
 
+        self.label1 = QLabel('<a href="https://www.simbrief.com/" style="color: #515151">SimBrief - Flight Planner</a>',parent=self.background1)
+        self.label1.setOpenExternalLinks(True)
+        self.label1.setTextInteractionFlags(QtCore.Qt.TextBrowserInteraction)
+        self.label1.setFixedWidth(423)
+        self.label1.move(0,80)
+        self.label1.setAlignment(QtCore.Qt.AlignCenter)
+        self.label1.setStyleSheet("font-size: 20px; background: transparent;")
+
         self.background2=QWidget(self)
         self.background2.setFixedSize(424,595)
         self.background2.setStyleSheet("QWidget { background: rgba(255, 255, 255, 0.725); border-radius: 10px; }")
