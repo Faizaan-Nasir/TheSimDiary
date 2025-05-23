@@ -17,7 +17,7 @@ from info import Info
 from allFlights import AllFlights
 from weather import Weather
 from log import logBook
-from userGuide import Guide
+from misc import Misc
 
 base_dir = os.path.dirname(__file__)
 class Stats(QWidget):
@@ -119,11 +119,11 @@ class Stats(QWidget):
         self.showLB.setStyleSheet(buttonStyleSheet)
         self.showLB.clicked.connect(self.openLogBook)
 
-        self.userGuide=QPushButton(text="Useful Tools",parent=self.buttonBox)
-        self.userGuide.move(20,160)
-        self.userGuide.setFixedSize(230,50)
-        self.userGuide.setStyleSheet(buttonStyleSheet)
-        self.userGuide.clicked.connect(self.openUserGuide)
+        self.misc=QPushButton(text="Miscellaneous",parent=self.buttonBox)
+        self.misc.move(20,160)
+        self.misc.setFixedSize(230,50)
+        self.misc.setStyleSheet(buttonStyleSheet)
+        self.misc.clicked.connect(self.openMisc)
 
         self.showWeather=QPushButton(text="Search Weather",parent=self.buttonBox)
         self.showWeather.move(20,230)
@@ -182,9 +182,9 @@ class Stats(QWidget):
         self.weatherWin=Weather(self.airports)
         self.weatherWin.show()
 
-    def openUserGuide(self):
-        self.ugWin=Guide()
-        self.ugWin.show()
+    def openMisc(self):
+        self.Win=Misc()
+        self.Win.show()
 
     def updateInfo(self):
         self.df=pd.read_csv("./src/data.csv")
