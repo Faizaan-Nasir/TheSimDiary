@@ -15,11 +15,12 @@ from haversine import Unit
 base_dir = os.path.dirname(__file__)
 
 class AllFlights(QWidget):
-    def __init__(self,df,**kwargs):
+    def __init__(self,df,parent,**kwargs):
         super().__init__(**kwargs)
         self.setWindowTitle("Pilot Diary")
         self.setFixedWidth(1400)
         self.setFixedHeight(760)
+        self.parent=parent
         pixmap = QPixmap(os.path.join(base_dir, 'src', 'background.jpg'))
         palette = self.palette()
         palette.setBrush(QPalette.Background, QBrush(pixmap))
@@ -32,7 +33,8 @@ class AllFlights(QWidget):
         self.showUI()
     
     def funGoBack(self):
-        self.deleteLater()
+        self.parent.show()
+        self.close()
 
     def showUI(self):
         self.heading=QLabel('All Flights',parent=self)

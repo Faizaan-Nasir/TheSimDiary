@@ -14,11 +14,12 @@ import urllib
 base_dir = os.path.dirname(__file__)
 
 class Weather(QWidget):
-    def __init__(self,airports,**kwargs):
+    def __init__(self,airports,parent,**kwargs):
         super().__init__(**kwargs)
         self.airports=airports
         self.setWindowTitle("Pilot Diary")
         self.setFixedWidth(1400)
+        self.parent=parent
         self.setFixedHeight(760)
         pixmap = QPixmap(os.path.join(base_dir, 'src', 'background.jpg'))
         palette = self.palette()
@@ -32,7 +33,8 @@ class Weather(QWidget):
         self.showUI()
 
     def funGoBack(self):
-        self.deleteLater()
+        self.parent.show()
+        self.close()
 
     def showUI(self):
         self.heading=QLabel('Search Weather',parent=self)

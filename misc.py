@@ -11,11 +11,12 @@ import os
 base_dir = os.path.dirname(__file__)
 
 class Misc(QWidget):
-    def __init__(self,**kwargs):
+    def __init__(self,parent,**kwargs):
         super().__init__(**kwargs)
         self.setWindowTitle("Pilot Diary")
         self.setFixedWidth(1400)
         self.setFixedHeight(760)
+        self.parent=parent
         pixmap = QPixmap(os.path.join(base_dir, 'src', 'background.jpg'))
         palette = self.palette()
         palette.setBrush(QPalette.Background, QBrush(pixmap))
@@ -25,6 +26,7 @@ class Misc(QWidget):
         self.showUI()
     
     def funGoBack(self):
+        self.parent.show()
         self.deleteLater()
 
     def showUI(self):

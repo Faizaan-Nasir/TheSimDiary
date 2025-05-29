@@ -171,19 +171,23 @@ class Stats(QWidget):
         self.updateInfo()
 
     def openLogBook(self):
-        self.logBook=logBook()
+        self.hide()
+        self.logBook=logBook(parent=self)
         self.logBook.show()
 
     def openAllFlight(self):
-        self.allFlights=AllFlights(self.df)
+        self.hide()
+        self.allFlights=AllFlights(self.df,parent=self)
         self.allFlights.show()
         
     def weather(self):
-        self.weatherWin=Weather(self.airports)
+        self.hide()
+        self.weatherWin=Weather(self.airports,parent=self)
         self.weatherWin.show()
 
     def openMisc(self):
-        self.Win=Misc()
+        self.hide()
+        self.Win=Misc(parent=self)
         self.Win.show()
 
     def updateInfo(self):

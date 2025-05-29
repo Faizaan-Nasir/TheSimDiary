@@ -13,9 +13,10 @@ from flight import Flight
 base_dir = os.path.dirname(__file__)
 
 class logBook(QWidget):
-    def __init__(self,**kwargs):
+    def __init__(self,parent,**kwargs):
         super().__init__(**kwargs)
         self.setWindowTitle("Pilot Diary")
+        self.parent=parent
         self.setFixedWidth(1400)
         self.setFixedHeight(760)
         pixmap = QPixmap(os.path.join(base_dir, 'src', 'background.jpg'))
@@ -42,7 +43,8 @@ class logBook(QWidget):
         self.showUI()
     
     def funGoBack(self):
-        self.deleteLater()
+        self.parent.show()
+        self.close()
 
     def showUI(self):
         self.heading=QLabel('Log Book',parent=self)
