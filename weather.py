@@ -99,21 +99,26 @@ class Weather(QWidget):
         self.metar.clear()
         self.adEle.clear()
         try:
-            self.icao.setText(self.airports.name[self.airports.icao_code==self.searchBar.text()].iloc[0]+" METAR")
-            self.adEle.setText("Airport Elevation: "+str(int(self.airports.elevation_ft[self.airports.icao_code==self.searchBar.text()].iloc[0]))+" ft")
+            self.icao.setText(self.airports.name[self.airports.icao_code==self.searchBar.text().upper()].iloc[0]+" METAR")
+            self.adEle.setText("Airport Elevation: "+str(int(self.airports.elevation_ft[self.airports.icao_code==self.searchBar.text().upper()].iloc[0]))+" ft")
         except Exception as e:
             self.icao.setText("No airport with given ICAO.")
             print(e)
         else:
             try:
-                data=urllib.request.urlopen(f"https://tgftp.nws.noaa.gov/data/observations/metar/stations/{self.searchBar.text()}.TXT")
+                data=urllib.request.urlopen(f"https://tgftp.nws.noaa.gov/data/observations/metar/stations/{self.searchBar.text().upper()}.TXT")
                 text=""
                 for line in data:
                     text+=line.decode("utf-8")
                 # print(Metar.Metar(text.split("\n")[1]).sky)
                 self.metar.setText(text)
             except Exception as e:
-                self.metar.setText("Server Timeout")
+                msg = QMessageBox()
+                msg.setWindowTitle("Network Error")
+                msg.setText("Server Timeout. We could not fetch the current weather for you. Please check your internet connection.")
+                msg.setIcon(QMessageBox.Critical)
+                msg.exec_()
+                self.metar.setText("Server Timeout. No results found")
                 print(e)
 if __name__=="__main__":
     airports=pd.read_csv("./src/airport-codes.csv")
