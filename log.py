@@ -201,7 +201,7 @@ class logBook(QWidget):
         self.delWin.show()
 
     def deleteRecord(self):
-        self.df=self.df[self.df.callsign!=self.csEdit.text()]
+        self.df=self.df[self.df.callsign!=self.csEdit.text().upper()]
         self.df.to_csv("./src/log.csv",index=False)
         self.allFlights()
         self.delWin.deleteLater()
@@ -268,6 +268,10 @@ class logBook(QWidget):
 
         self.addRec.show()
 
+    def _validateDate(self) :
+        from datetime import datetime
+        datetime.strptime(self.dateEdit.text(), "%d/%m/%Y")
+
     def submitRecord(self):
         try:
             # print(self.aircrafts[self.aircrafts.icao==self.acEdit.text()].iloc[0])
@@ -280,13 +284,14 @@ class logBook(QWidget):
             # coor2[0]=float(coor2[0])
             # coor2[1]=float(coor2[1])
             # result=int(hs.haversine(coor1,coor2,unit=Unit.KILOMETERS))
+            self._validateDate()
             self.df=pd.concat([self.df,pd.DataFrame([{
                 "date":self.dateEdit.text(),
                 "mod":self.modEdit.text(),
                 "failure_type":self.ftEdit.text(),
                 "status":self.statusEdit.text(),
                 "sim":self.simEdit.text(),
-                "callsign":self.csEdit.text()
+                "callsign":self.csEdit.text().upper()
             }])],ignore_index=True)
             self.df.to_csv("./src/log.csv",index=False)
             self.allFlights()
@@ -335,12 +340,13 @@ class logBook(QWidget):
 
     def searchCallsign(self):
         try:
-            print(self.df[self.df.callsign==self.searchCall.text()].iloc[0])
+            searchCall = self.searchCall.text().upper()
+            print(self.df[self.df.callsign==searchCall].iloc[0])
             self.flight.deleteLater()
-            self.flight=Flight(self.df[self.df.callsign==self.searchCall.text()].iloc[0],self.airports,self.aircrafts,parent=self.background)
+            self.flight=Flight(self.df[self.df.callsign==searchCall].iloc[0],self.airports,self.aircrafts,parent=self.background)
             self.flight.show()
             self.table.deleteLater()
-            self.table=Table(self.df[self.df.callsign==self.searchCall.text()],parent=self.tableArea)
+            self.table=Table(self.df[self.df.callsign==searchCall],parent=self.tableArea)
             self.table.show()
 
         except Exception as e:
@@ -390,6 +396,7 @@ class Table(QTableWidget):
         self.setShowGrid(False)
         self.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.setSelectionMode(QAbstractItemView.NoSelection)
         
         textStyle='''background:rgba(255, 255, 255, 0);font-size:15px;font-weight:400;color:#515151;border-right:1px solid #515151;border-left:1px solid #515151;border-radius:0px;'''
         for i in range(self.df.callsign.count()-1,-1,-1):
