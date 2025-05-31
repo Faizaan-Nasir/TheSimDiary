@@ -216,7 +216,7 @@ class Stats(QWidget):
             self.info=Info(self.airports,self.aircrafts,df,parent=self.infoBar)         
         self.info.show()
         self.PrevFlight.show()
-        QTimer.singleShot(10000,self.updateInfo)
+        QTimer.singleShot(1000,self.updateInfo)
 
     def updateTime(self):
         self.utcTime.deleteLater()
