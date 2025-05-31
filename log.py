@@ -219,6 +219,9 @@ class logBook(QWidget):
         self.dateEdit.move(35,20)
         self.dateEdit.setPlaceholderText('date')
         self.dateEdit.setFocusPolicy(QtCore.Qt.ClickFocus)
+        from datetime import date
+        today = date.today().strftime("%d/%m/%Y")
+        self.dateEdit.setText(today)
 
         self.modEdit=QLineEdit(parent=self.addRec)
         self.modEdit.setStyleSheet('font-size:20px;border:none;background:#A4A4A4;border-radius:10px;padding:10px;color:white;font-weight:400;')
