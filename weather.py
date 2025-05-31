@@ -113,11 +113,7 @@ class Weather(QWidget):
                 # print(Metar.Metar(text.split("\n")[1]).sky)
                 self.metar.setText(text)
             except Exception as e:
-                msg = QMessageBox()
-                msg.setWindowTitle("Network Error")
-                msg.setText("Server Timeout. We could not fetch the current weather for you. Please check your internet connection.")
-                msg.setIcon(QMessageBox.Critical)
-                msg.exec_()
+                self.exception = QMessageBox.critical(self, "Network Error", "Server Timeout. We could not fetch the current weather for you. Please check your internet connection.") 
                 self.metar.setText("Server Timeout. No results found")
                 print(e)
 if __name__=="__main__":

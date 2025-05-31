@@ -268,21 +268,21 @@ class AllFlights(QWidget):
 
     def submitRecord(self):
         try:
-            print(self.aircrafts[self.aircrafts.icao==self.acEdit.text()].iloc[0])
-            print(self.airports[self.airports.icao_code==self.arrEdit.text()].iloc[0])
-            print(self.airports[self.airports.icao_code==self.depEdit.text()].iloc[0])
-            coor1=self.airports.coordinates[self.airports.icao_code==self.depEdit.text()].iloc[0].split(',')
-            coor2=self.airports.coordinates[self.airports.icao_code==self.arrEdit.text()].iloc[0].split(',')
+            print(self.aircrafts[self.aircrafts.icao==self.acEdit.text().upper()].iloc[0])
+            print(self.airports[self.airports.icao_code==self.arrEdit.text().upper()].iloc[0])
+            print(self.airports[self.airports.icao_code==self.depEdit.text().upper()].iloc[0])
+            coor1=self.airports.coordinates[self.airports.icao_code==self.depEdit.text().upper()].iloc[0].split(',')
+            coor2=self.airports.coordinates[self.airports.icao_code==self.arrEdit.text().upper()].iloc[0].split(',')
             coor1[0]=float(coor1[0])
             coor1[1]=float(coor1[1])
             coor2[0]=float(coor2[0])
             coor2[1]=float(coor2[1])
             result=int(hs.haversine(coor1,coor2,unit=Unit.KILOMETERS))
             self.df=pd.concat([self.df,pd.DataFrame([{
-                "callsign":self.csEdit.text(),
-                "aircraft":self.acEdit.text(),
-                "dep":self.depEdit.text(),
-                "arr":self.arrEdit.text(),
+                "callsign":self.csEdit.text().upper(),
+                "aircraft":self.acEdit.text().upper(),
+                "dep":self.depEdit.text().upper(),
+                "arr":self.arrEdit.text().upper(),
                 "time":self.timeEdit.text(),
                 "distance":int(result),
                 "date":self.dateEdit.text()
@@ -317,12 +317,13 @@ class AllFlights(QWidget):
         
     def searchAPort(self):
         try:
-            print(self.df[(self.df.arr==self.searchAP.text()) | (self.df.dep==self.searchAP.text())].iloc[0])
+            searchAP = self.searchAP.text().upper()
+            print(self.df[(self.df.arr==searchAP) | (self.df.dep==searchAP)].iloc[0])
             self.flight.deleteLater()
-            self.flight=Flight(self.df[(self.df.arr==self.searchAP.text()) | (self.df.dep==self.searchAP.text())].iloc[0],self.airports,self.aircrafts,parent=self.background)
+            self.flight=Flight(self.df[(self.df.arr==searchAP) | (self.df.dep==searchAP)].iloc[0],self.airports,self.aircrafts,parent=self.background)
             self.flight.show()
             self.table.deleteLater()
-            self.table=Table(self.df[(self.df.arr==self.searchAP.text()) | (self.df.dep==self.searchAP.text())],parent=self.tableArea)
+            self.table=Table(self.df[(self.df.arr==searchAP) | (self.df.dep==searchAP)],parent=self.tableArea)
             self.table.show()
 
         except Exception as e:
@@ -335,12 +336,13 @@ class AllFlights(QWidget):
 
     def searchCallsign(self):
         try:
-            print(self.df[self.df.callsign==self.searchCall.text()].iloc[0])
+            searchCall = self.searchCall.text().upper()
+            print(self.df[self.df.callsign==searchCall].iloc[0])
             self.flight.deleteLater()
-            self.flight=Flight(self.df[self.df.callsign==self.searchCall.text()].iloc[0],self.airports,self.aircrafts,parent=self.background)
+            self.flight=Flight(self.df[self.df.callsign==searchCall].iloc[0],self.airports,self.aircrafts,parent=self.background)
             self.flight.show()
             self.table.deleteLater()
-            self.table=Table(self.df[self.df.callsign==self.searchCall.text()],parent=self.tableArea)
+            self.table=Table(self.df[self.df.callsign==searchCall],parent=self.tableArea)
             self.table.show()
 
         except Exception as e:
@@ -352,12 +354,13 @@ class AllFlights(QWidget):
 
     def searchAcraft(self):
         try:
-            print(self.df[self.df.aircraft==self.searchAC.text()].iloc[0])
+            searchAC = self.searchAC.text().upper()
+            print(self.df[self.df.aircraft==searchAC].iloc[0])
             self.flight.deleteLater()
-            self.flight=Flight(self.df[self.df.aircraft==self.searchAC.text()].iloc[0],self.airports,self.aircrafts,parent=self.background)
+            self.flight=Flight(self.df[self.df.aircraft==searchAC].iloc[0],self.airports,self.aircrafts,parent=self.background)
             self.flight.show()
             self.table.deleteLater()
-            self.table=Table(self.df[self.df.aircraft==self.searchAC.text()],parent=self.tableArea)
+            self.table=Table(self.df[self.df.aircraft==searchAC],parent=self.tableArea)
             self.table.show()
 
         except Exception as e:
