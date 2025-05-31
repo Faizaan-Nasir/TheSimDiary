@@ -199,7 +199,7 @@ class AllFlights(QWidget):
         self.delWin.show()
 
     def deleteRecord(self):
-        self.df=self.df[self.df.callsign!=self.csEdit.text()]
+        self.df=self.df[self.df.callsign!=self.csEdit.text().upper()]
         self.df.to_csv("./src/data.csv",index=False)
         self.allFlights()
         self.delWin.deleteLater()
@@ -257,6 +257,9 @@ class AllFlights(QWidget):
         self.dateEdit.move(35,325)
         self.dateEdit.setPlaceholderText('date')
         self.dateEdit.setFocusPolicy(QtCore.Qt.ClickFocus)
+        from datetime import date
+        today = date.today().strftime("%d/%m/%Y")
+        self.dateEdit.setText(today)
 
         self.submitRec=QPushButton(text="Submit",parent=self.addRec)
         self.submitRec.move(35,386)
@@ -265,6 +268,15 @@ class AllFlights(QWidget):
         self.submitRec.clicked.connect(self.submitRecord)
 
         self.addRec.show()
+    
+    def _validateDuration(self) :  
+        import re
+        if not bool(re.match(r'^\d+:[0-5]\d$', self.timeEdit.text())):
+            raise Exception("Invalid flight duration entered")
+
+    def _validateDate(self) :
+        from datetime import datetime
+        datetime.strptime(self.dateEdit.text(), "%d/%m/%Y")
 
     def submitRecord(self):
         try:
@@ -278,6 +290,8 @@ class AllFlights(QWidget):
             coor2[0]=float(coor2[0])
             coor2[1]=float(coor2[1])
             result=int(hs.haversine(coor1,coor2,unit=Unit.KILOMETERS))
+            self._validateDuration()
+            self._validateDate()
             self.df=pd.concat([self.df,pd.DataFrame([{
                 "callsign":self.csEdit.text().upper(),
                 "aircraft":self.acEdit.text().upper(),
