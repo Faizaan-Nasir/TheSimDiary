@@ -3,3 +3,4 @@ haversine
 pandas
 matplotlib
 numpy
+metar
