@@ -59,26 +59,26 @@ class Weather(QWidget):
         self.backdrop.move(50,125)
 
         self.searchBar=QLineEdit(parent=self.backdrop)
-        self.searchBar.setStyleSheet('font-size:25px;border:none;background:#A4A4A4;border-radius:10px;padding:10px;color:white;font-weight:400;')
-        self.searchBar.setFixedWidth(505)
-        self.searchBar.move(150,40)
+        self.searchBar.setStyleSheet('font-size:20px;border:none;background:#A4A4A4;border-radius:10px;padding:10px;color:white;font-weight:400;')
+        self.searchBar.setFixedWidth(705)
+        self.searchBar.move(50,40)
         self.searchBar.setPlaceholderText('search airport by icao')
         self.searchBar.setText("PHNL")
         self.searchBar.returnPressed.connect(self.search)
 
         self.submit=QPushButton("Search",parent=self.backdrop)
-        self.submit.setFixedSize(185,52)
+        self.submit.setFixedSize(185,45)
         self.submit.setStyleSheet('''QPushButton{
                                         border-radius:10px;
                                         color:white;
                                         background:slategrey;
-                                        font-size:22px;
+                                        font-size:20px;
                                         font-weight:400;
                                     }
                                     QPushButton:hover{
                                         background:#656c84;
                                     }''')
-        self.submit.move(670,40)
+        self.submit.move(770,40)
         self.submit.clicked.connect(self.search)
 
         self.raw=QLabel("\n",parent=self.backdrop)
@@ -110,10 +110,10 @@ class Weather(QWidget):
         self.utc.setFixedSize(150,150)
         self.utc.move(65,65)
         
-        self.utcTitle=QLabel("UTC Time",self.clockBox)
-        self.utcTitle.move(0,30)
+        self.utcTitle=QLabel("<u>UTC Time</u>",self.clockBox)
+        self.utcTitle.move(0,28)
         self.utcTitle.setFixedWidth(280)
-        self.utcTitle.setStyleSheet("background:rgba(255, 255, 255, 0);font-size:17px;font-weight:800;color:#515151")
+        self.utcTitle.setStyleSheet("background:rgba(255, 255, 255, 0);font-size:23px;font-weight:800;color:#515151")
         self.utcTitle.setAlignment(QtCore.Qt.AlignCenter)
 
         self.infoBg=QWidget(parent=self)
