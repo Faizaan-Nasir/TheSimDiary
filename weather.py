@@ -222,7 +222,7 @@ class Weather(QWidget):
                     self.raw.clear()
                     self.raw.setText(text)
                     self.metar.deleteLater()
-                    self.metar=Table(giveWeather(text),parent=self.backdrop)
+                    self.metar=Table(giveWeather(text),self.airports.name[self.airports.icao_code==self.searchBar.text().upper()].iloc[0],parent=self.backdrop)
                     self.metar.move(50,150)
                     self.metar.show()
                     self.metarTime.setText(str(giveTime(text)))
@@ -243,13 +243,13 @@ class Weather(QWidget):
 
 
 class Table(QTableWidget):
-    def __init__(self,text,**kwargs):
+    def __init__(self,text,airport,**kwargs):
         super().__init__(**kwargs)
         self.text=text
         text=text.split("| ")
-        self.setRowCount(1)      # At least 1 row for your header
+        self.setRowCount(0)      # At least 1 row for your header
         self.setColumnCount(2)   # 7 columns for your headers
-        self.setFixedSize(905,50*len(text))
+        self.setFixedSize(905,410)
         self.move(2,54)
         self.setColumnWidth(0, 125)
         self.setColumnWidth(1,780)
@@ -268,7 +268,20 @@ class Table(QTableWidget):
         self.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.setSelectionMode(QAbstractItemView.NoSelection)
         
+        self.insertRow(0)
+        self.title=QLabel("Airfield")
+        self.title.setFixedSize(125,50)
+        self.title.setStyleSheet("background:rgba(255, 255, 255, 0);font-size:15px;font-weight:600;color:#515151;border-radius:0px;")
+        self.title.setAlignment(QtCore.Qt.AlignCenter)
+        self.setCellWidget(0,0,(self.title))
 
+        self.info=QLabel(airport)
+        self.info.setFixedSize(780,50)
+        self.info.setStyleSheet("background:rgba(255, 255, 255, 0);font-size:15px;font-weight:400;color:#515151;border-radius:0px;")
+        self.info.setAlignment(QtCore.Qt.AlignCenter)
+        self.info.setWordWrap(True)
+        self.setCellWidget(0,1,(self.info))
+        
         for i in range(len(text)):
             # print(text[i].split(": "))
             self.insertRow(i+1)
@@ -276,24 +289,24 @@ class Table(QTableWidget):
             self.title.setFixedSize(125,50)
             self.title.setStyleSheet("background:rgba(255, 255, 255, 0);font-size:15px;font-weight:600;color:#515151;border-radius:0px;")
             self.title.setAlignment(QtCore.Qt.AlignCenter)
-            self.setCellWidget(i,0,(self.title))
+            self.setCellWidget(i+1,0,(self.title))
 
             self.info=QLabel(text[i].split(': ')[1])
             self.info.setFixedSize(780,50)
             self.info.setStyleSheet("background:rgba(255, 255, 255, 0);font-size:15px;font-weight:400;color:#515151;border-radius:0px;")
             self.info.setAlignment(QtCore.Qt.AlignCenter)
             self.info.setWordWrap(True)
-            self.setCellWidget(i,1,(self.info))
+            self.setCellWidget(i+1,1,(self.info))
 
         
         for i in range(self.rowCount()):
             self.setRowHeight(i,50)
 
-        self.setVerticalScrollMode(QTableWidget.ScrollPerPixel)  # optional
-        self.setHorizontalScrollMode(QTableWidget.ScrollPerPixel)  # optional
+        # self.setVerticalScrollMode(QTableWidget.ScrollPerPixel)  # optional
+        # self.setHorizontalScrollMode(QTableWidget.ScrollPerPixel)  # optional
 
         # Override the wheelEvent
-        self.wheelEvent = lambda event: None
+        # self.wheelEvent = lambda event: None
 
 
 if __name__=="__main__":
