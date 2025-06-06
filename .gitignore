@@ -3,3 +3,4 @@ db.txt
 __pycache__/*
 src/data.csv
 src/log.csv
+.DS_Store
