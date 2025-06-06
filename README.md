@@ -28,7 +28,7 @@ I assure you of the following:
 
 - ✅ **No personal or usage data is collected** — your logs and data stay completely local on your system.  
 - ✅ The application is built in Python with open-source libraries, and the **source code is made available** for full transparency.  
-- ✅ You can inspect the code and verify its behavior yourself.  
+- ✅ You can inspect the code and verify its behavior yourself. The binaries are only provided for user convenience.
 
 **To run the application:**
 
@@ -50,7 +50,7 @@ I appreciate your understanding and support as this project grows into something
   - **Aircraft data** (model, type, performance characteristics)
 
 ## 🐞 Known Issues & Feedback
-### Known Issues:
+### Known Issues
 - Delay in opening Weather Tab
 
 ### Feedback
