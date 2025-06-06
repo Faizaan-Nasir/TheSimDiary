@@ -100,12 +100,12 @@ class Misc(QWidget):
         self.vatsim.setStyleSheet(linksStyle)
         self.vatsim.move(80, 280)
 
-        self.vatSpy = QLabel('•&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://vatspy.net/">VATSpy</a> - Real-time VATSIM Map', parent=self.background1)
-        self.vatSpy.setOpenExternalLinks(True)
-        self.vatSpy.setTextFormat(QtCore.Qt.RichText)
-        self.vatSpy.setTextInteractionFlags(QtCore.Qt.TextBrowserInteraction)
-        self.vatSpy.setStyleSheet(linksStyle)
-        self.vatSpy.move(80, 310)
+        self.vatRadar = QLabel('•&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://vatsim-radar.com/">VATSIM Radar</a> - Real-time VATSIM Map', parent=self.background1)
+        self.vatRadar.setOpenExternalLinks(True)
+        self.vatRadar.setTextFormat(QtCore.Qt.RichText)
+        self.vatRadar.setTextInteractionFlags(QtCore.Qt.TextBrowserInteraction)
+        self.vatRadar.setStyleSheet(linksStyle)
+        self.vatRadar.move(80, 310)
 
         self.ivao = QLabel('•&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.ivao.aero/">IVAO</a> - Virtual ATC Network', parent=self.background1)
         self.ivao.setOpenExternalLinks(True)
@@ -152,7 +152,7 @@ class Misc(QWidget):
 
 if __name__=="__main__":
     app = QApplication([])
-    window = Misc()
+    window = Misc(parent=None)
     window.show()
     appexe=app.exec()
     sys.exit(appexe)

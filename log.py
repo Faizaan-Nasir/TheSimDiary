@@ -95,7 +95,7 @@ class logBook(QWidget):
         self.mod.setStyleSheet(headerStyle)
         self.mod.setAlignment(QtCore.Qt.AlignCenter)
 
-        self.type=QLabel(text="Failure Type",parent=self.tableArea)
+        self.type=QLabel(text="Description",parent=self.tableArea)
         self.type.setFixedSize(147,54)
         self.type.move(296,1)
         self.type.setStyleSheet(headerStyle)
@@ -236,7 +236,7 @@ class logBook(QWidget):
         self.ftEdit.setAlignment(QtCore.Qt.AlignCenter)
         self.ftEdit.setFixedWidth(230)
         self.ftEdit.move(35,142)
-        self.ftEdit.setPlaceholderText('failure type')
+        self.ftEdit.setPlaceholderText('failure description')
         self.ftEdit.setFocusPolicy(QtCore.Qt.ClickFocus)
 
         self.statusEdit=QLineEdit(parent=self.addRec)
@@ -422,6 +422,7 @@ class Table(QTableWidget):
             self.ft.setStyleSheet(textStyle)
             self.ft.setAlignment(QtCore.Qt.AlignCenter)
             self.setCellWidget(self.rowCount()-1,2,self.ft)
+            self.ft.setWordWrap(True)
 
             self.status=QLabel(text=self.df.status.iloc[i])
             self.status.setFixedSize(147,50)
@@ -447,7 +448,7 @@ class Table(QTableWidget):
 if __name__=="__main__":
     df=pd.read_csv("./src/log.csv")
     app = QApplication([])
-    window = logBook()
+    window = logBook(parent=None)
     window.show()
     appexe=app.exec()
     sys.exit(appexe)
