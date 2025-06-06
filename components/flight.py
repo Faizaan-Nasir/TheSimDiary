@@ -20,7 +20,7 @@ class Flight(QWidget):
         self.PrevFileTitle.move(0,40)
 
         self.image = QLabel(parent=self)
-        pixmap = QPixmap('src/airplance-icon.png')  # Replace with your image path
+        pixmap = QPixmap('./src/airplance-icon.png')  # Replace with your image path
         self.image.setPixmap(pixmap)
         self.image.move(0,100)
         self.image.setFixedWidth(400)

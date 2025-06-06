@@ -8,12 +8,11 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 matplotlib.use('Qt5Agg')
 from PyQt5.QtGui import *
 import os
-from flight import Flight
+from components.flight import Flight
 import haversine as hs   
 from haversine import Unit
 
-base_dir = os.path.dirname(__file__)
-
+base_dir = os.path.dirname(os.path.dirname(__file__))
 class AllFlights(QWidget):
     def __init__(self,df,parent,**kwargs):
         super().__init__(**kwargs)
@@ -25,7 +24,7 @@ class AllFlights(QWidget):
         palette = self.palette()
         palette.setBrush(QPalette.Background, QBrush(pixmap))
         self.setPalette(palette)
-        self.airports=pd.read_csv("./src/airport-codes.csv")
+        self.airports=pd.read_csv("https://raw.githubusercontent.com/datasets/airport-codes/refs/heads/main/data/airport-codes.csv")
         self.aircrafts=pd.read_csv("./src/ICAOList.csv", encoding='latin1')
         self.df=df
         self.setWindowIcon(QtGui.QIcon('./src/icon.ico'))

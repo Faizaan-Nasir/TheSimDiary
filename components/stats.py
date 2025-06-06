@@ -1,4 +1,4 @@
-from clock import Clock
+from components.clock import Clock
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
 from PyQt5 import QtGui
@@ -12,18 +12,18 @@ matplotlib.use('Qt5Agg')
 from PyQt5.QtGui import *
 import numpy as np
 import os
-from flight import Flight
-from info import Info
-from allFlights import AllFlights
-from weather import Weather
-from log import logBook
-from misc import Misc
+from components.flight import Flight
+from components.info import Info
+from components.allFlights import AllFlights
+from components.weather import Weather
+from components.log import logBook
+from components.misc import Misc
 
-base_dir = os.path.dirname(__file__)
+base_dir = os.path.dirname(os.path.dirname(__file__))
 class Stats(QWidget):
     def __init__(self):
         super().__init__()
-        self.airports=pd.read_csv("./src/airport-codes.csv")
+        self.airports=pd.read_csv("https://raw.githubusercontent.com/datasets/airport-codes/refs/heads/main/data/airport-codes.csv")
         self.aircrafts=pd.read_csv("./src/ICAOList.csv", encoding='latin1')
         try:
             self.df=pd.read_csv("./src/data.csv")

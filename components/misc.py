@@ -8,8 +8,7 @@ matplotlib.use('Qt5Agg')
 from PyQt5.QtGui import *
 import os
 
-base_dir = os.path.dirname(__file__)
-
+base_dir = os.path.dirname(os.path.dirname(__file__))
 class Misc(QWidget):
     def __init__(self,parent,**kwargs):
         super().__init__(**kwargs)

@@ -11,13 +11,12 @@ from PyQt5.QtGui import *
 import os
 import urllib
 from datetime import datetime
-from clock import Clock
+from components.clock import Clock
 from PyQt5.QtCore import QTimer
-from comprehendWeather import giveWeather
-from comprehendWeather import giveTime
+from components.comprehendWeather import giveWeather
+from components.comprehendWeather import giveTime
 
-base_dir = os.path.dirname(__file__)
-
+base_dir = os.path.dirname(os.path.dirname(__file__))
 class Weather(QWidget):
     def __init__(self,airports,parent,**kwargs):
         super().__init__(**kwargs)
@@ -30,7 +29,7 @@ class Weather(QWidget):
         palette = self.palette()
         palette.setBrush(QPalette.Background, QBrush(pixmap))
         self.setPalette(palette)
-        self.setWindowIcon(QtGui.QIcon('./src/icon.ico'))
+        self.setWindowIcon(QtGui.QIcon('../src/icon.ico'))
         # data=urllib.request.urlopen("https://tgftp.nws.noaa.gov/data/observations/metar/stations/VABB.TXT")
         # for line in data:
         #     print(line.decode("utf-8"))
@@ -310,7 +309,7 @@ class Table(QTableWidget):
 
 
 if __name__=="__main__":
-    airports=pd.read_csv("./src/airport-codes.csv")
+    airports=pd.read_csv("https://raw.githubusercontent.com/datasets/airport-codes/refs/heads/main/data/airport-codes.csv")
     app = QApplication([])
     # window = Weather(airports)
     data=urllib.request.urlopen(f"https://tgftp.nws.noaa.gov/data/observations/metar/stations/VABB.TXT")

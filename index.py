@@ -4,7 +4,7 @@ import matplotlib
 matplotlib.use('Qt5Agg')
 from PyQt5.QtGui import *
 import os
-from Stats import Stats
+from components.stats import Stats
 
 base_dir = os.path.dirname(__file__)
 
