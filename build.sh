@@ -3,6 +3,7 @@
 # Bundling script
 echo "✨ Starting pyinstaller command"
 
+# python3 -m PyInstaller TheSimDiary.spec -y;
 if ! pyinstaller TheSimDiary.spec -y; then 
 	echo "❌ Something went wrong creating executable with pyinstaller. Aborting"
 	exit 1

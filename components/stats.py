@@ -28,7 +28,7 @@ class Stats(QWidget):
         self.airports=pd.read_csv("https://raw.githubusercontent.com/datasets/airport-codes/refs/heads/main/data/airport-codes.csv")
         self.aircrafts=pd.read_csv(resource_path("src/ICAOList.csv"), encoding='latin1')
         try:
-            self.df=pd.read_csv("./src/data.csv")
+            self.df=pd.read_csv(resource_path("src/data.csv"))
         except FileNotFoundError:
             df=pd.DataFrame({"callsign":["SAMPLE"],
                 "aircraft":["B738"],
