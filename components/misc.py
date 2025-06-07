@@ -7,8 +7,9 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 matplotlib.use('Qt5Agg')
 from PyQt5.QtGui import *
 import os
+from utils import resource_path
 
-base_dir = os.path.dirname(os.path.dirname(__file__))
+base_dir = resource_path()
 class Misc(QWidget):
     def __init__(self,parent,**kwargs):
         super().__init__(**kwargs)
@@ -16,11 +17,11 @@ class Misc(QWidget):
         self.setFixedWidth(1400)
         self.setFixedHeight(760)
         self.parent=parent
-        pixmap = QPixmap(os.path.join(base_dir, 'src', 'background.jpg'))
+        pixmap = QPixmap(resource_path("src/background.jpg"))
         palette = self.palette()
         palette.setBrush(QPalette.Background, QBrush(pixmap))
         self.setPalette(palette)
-        self.setWindowIcon(QtGui.QIcon('./src/icon.ico'))
+        self.setWindowIcon(QtGui.QIcon(resource_path("src/icon.ico")))
 
         self.showUI()
     

@@ -11,8 +11,9 @@ import os
 from components.flight import Flight
 import haversine as hs   
 from haversine import Unit
+from utils import resource_path
 
-base_dir = os.path.dirname(os.path.dirname(__file__))
+base_dir = resource_path()
 class AllFlights(QWidget):
     def __init__(self,df,parent,**kwargs):
         super().__init__(**kwargs)
@@ -25,9 +26,9 @@ class AllFlights(QWidget):
         palette.setBrush(QPalette.Background, QBrush(pixmap))
         self.setPalette(palette)
         self.airports=pd.read_csv("https://raw.githubusercontent.com/datasets/airport-codes/refs/heads/main/data/airport-codes.csv")
-        self.aircrafts=pd.read_csv("./src/ICAOList.csv", encoding='latin1')
+        self.aircrafts=pd.read_csv(resource_path("src/ICAOList.csv"), encoding='latin1')
         self.df=df
-        self.setWindowIcon(QtGui.QIcon('./src/icon.ico'))
+        self.setWindowIcon(QtGui.QIcon(resource_path("src/icon.ico")))
 
         self.showUI()
     
@@ -199,7 +200,7 @@ class AllFlights(QWidget):
 
     def deleteRecord(self):
         self.df=self.df[self.df.callsign!=self.csEdit.text().upper()]
-        self.df.to_csv("./src/data.csv",index=False)
+        self.df.to_csv(resource_path("src/data.csv"),index=False)
         self.allFlights()
         self.delWin.deleteLater()
 
@@ -300,7 +301,7 @@ class AllFlights(QWidget):
                 "distance":int(result),
                 "date":self.dateEdit.text()
             }])],ignore_index=True)
-            self.df.to_csv("./src/data.csv",index=False)
+            self.df.to_csv(resource_path("src/data.csv"),index=False)
             self.allFlights()
         except Exception as e:
             self.exception=QMessageBox.critical(self.addRec,"Error!","Incorrect entry in one or more field(s).")

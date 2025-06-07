@@ -8,8 +8,8 @@ matplotlib.use('Qt5Agg')
 from PyQt5.QtGui import *
 import os
 from components.flight import Flight
-
-base_dir = os.path.dirname(os.path.dirname(__file__))
+from utils import resource_path
+base_dir = resource_path()
 class logBook(QWidget):
     def __init__(self,parent,**kwargs):
         super().__init__(**kwargs)
@@ -17,12 +17,12 @@ class logBook(QWidget):
         self.parent=parent
         self.setFixedWidth(1400)
         self.setFixedHeight(760)
-        pixmap = QPixmap(os.path.join(base_dir, 'src', 'background.jpg'))
+        pixmap = QPixmap(resource_path("src/background.jpg"))
         palette = self.palette()
         palette.setBrush(QPalette.Background, QBrush(pixmap))
         self.setPalette(palette)
         self.airports=pd.read_csv("https://raw.githubusercontent.com/datasets/airport-codes/refs/heads/main/data/airport-codes.csv")
-        self.aircrafts=pd.read_csv("./src/ICAOList.csv", encoding='latin1')
+        self.aircrafts=pd.read_csv(resource_path("src/ICAOList.csv"), encoding='latin1')
         try:
             self.df=pd.read_csv("./src/log.csv")
         except:
@@ -35,8 +35,8 @@ class logBook(QWidget):
                 "callsign":["SAMPLE"]})
             df.to_csv("../src/log.csv",index=False)
             self.df=df
-        self.data=pd.read_csv("./src/data.csv")
-        self.setWindowIcon(QtGui.QIcon('../src/icon.ico'))
+        self.data=pd.read_csv(resource_path("src/data.csv"))
+        self.setWindowIcon(QtGui.QIcon(resource_path("src/icon.ico")))
 
         self.showUI()
     
@@ -444,7 +444,7 @@ class Table(QTableWidget):
             self.setRowHeight(i,50)
 
 if __name__=="__main__":
-    df=pd.read_csv("./src/log.csv")
+    df=pd.read_csv(resource_path("src/log.csv"))
     app = QApplication([])
     window = logBook(parent=None)
     window.show()

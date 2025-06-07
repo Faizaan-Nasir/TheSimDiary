@@ -18,13 +18,15 @@ from components.allFlights import AllFlights
 from components.weather import Weather
 from components.log import logBook
 from components.misc import Misc
+from utils import resource_path
 
-base_dir = os.path.dirname(os.path.dirname(__file__))
+base_dir = resource_path()
+
 class Stats(QWidget):
     def __init__(self):
         super().__init__()
         self.airports=pd.read_csv("https://raw.githubusercontent.com/datasets/airport-codes/refs/heads/main/data/airport-codes.csv")
-        self.aircrafts=pd.read_csv("./src/ICAOList.csv", encoding='latin1')
+        self.aircrafts=pd.read_csv(resource_path("src/ICAOList.csv"), encoding='latin1')
         try:
             self.df=pd.read_csv("./src/data.csv")
         except FileNotFoundError:
@@ -35,17 +37,17 @@ class Stats(QWidget):
                 "time":["00:20"],
                 "distance":[151],
                 "date":["21/05/25"]})
-            df.to_csv("./src/data.csv",index=False)
+            df.to_csv(resource_path("src/data.csv"),index=False)
             self.df=df
 
         self.setWindowTitle("Pilot Diary")
         self.setFixedWidth(1400)
         self.setFixedHeight(760)
-        pixmap = QPixmap(os.path.join(base_dir, 'src', 'background.jpg'))
+        pixmap = QPixmap(resource_path("src/background.jpg"))
         palette = self.palette()
         palette.setBrush(QPalette.Background, QBrush(pixmap))
         self.setPalette(palette)
-        self.setWindowIcon(QtGui.QIcon('./src/icon.ico'))
+        self.setWindowIcon(QtGui.QIcon(resource_path("src/icon.ico")))
         # data=urllib.request.urlopen("https://tgftp.nws.noaa.gov/data/observations/metar/stations/VABB.TXT")
         # for line in data:
         #     print(line.decode("utf-8"))
@@ -191,7 +193,7 @@ class Stats(QWidget):
         self.Win.show()
 
     def updateInfo(self):
-        self.df=pd.read_csv("./src/data.csv")
+        self.df=pd.read_csv(resource_path("src/data.csv"))
         self.numFlights.deleteLater()
         self.numFlights=QLabel(text=str(self.df.aircraft.count()),parent=self.GraphArea)
         self.numFlights.setFixedWidth(600)

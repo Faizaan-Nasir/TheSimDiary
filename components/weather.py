@@ -16,7 +16,10 @@ from PyQt5.QtCore import QTimer
 from components.comprehendWeather import giveWeather
 from components.comprehendWeather import giveTime
 
-base_dir = os.path.dirname(os.path.dirname(__file__))
+from utils import resource_path
+
+base_dir = resource_path()
+
 class Weather(QWidget):
     def __init__(self,airports,parent,**kwargs):
         super().__init__(**kwargs)
@@ -29,7 +32,7 @@ class Weather(QWidget):
         palette = self.palette()
         palette.setBrush(QPalette.Background, QBrush(pixmap))
         self.setPalette(palette)
-        self.setWindowIcon(QtGui.QIcon('../src/icon.ico'))
+        self.setWindowIcon(QtGui.QIcon(resource_path("src/icon.ico")))
         # data=urllib.request.urlopen("https://tgftp.nws.noaa.gov/data/observations/metar/stations/VABB.TXT")
         # for line in data:
         #     print(line.decode("utf-8"))

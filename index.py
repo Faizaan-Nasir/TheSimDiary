@@ -5,8 +5,9 @@ matplotlib.use('Qt5Agg')
 from PyQt5.QtGui import *
 import os
 from components.stats import Stats
+from utils import resource_path
 
-base_dir = os.path.dirname(__file__)
+base_dir = resource_path()
 
 
 if __name__=="__main__":

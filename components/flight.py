@@ -3,7 +3,7 @@ from PyQt5 import QtCore
 import matplotlib
 matplotlib.use('Qt5Agg')
 from PyQt5.QtGui import *
-
+from utils import resource_path
 class Flight(QWidget):
     def __init__(self,df,airports,aircrafts,**kwargs):
         super().__init__(**kwargs)
@@ -20,7 +20,7 @@ class Flight(QWidget):
         self.PrevFileTitle.move(0,40)
 
         self.image = QLabel(parent=self)
-        pixmap = QPixmap('./src/airplance-icon.png')  # Replace with your image path
+        pixmap = QPixmap(resource_path("src/airplance-icon.png"))  # Replace with your image path
         self.image.setPixmap(pixmap)
         self.image.move(0,100)
         self.image.setFixedWidth(400)
