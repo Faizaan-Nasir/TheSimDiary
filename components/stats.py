@@ -1,4 +1,3 @@
-import urllib.request
 from components.clock import Clock
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
@@ -12,7 +11,6 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 matplotlib.use('Qt5Agg')
 from PyQt5.QtGui import *
 import numpy as np
-import os
 from components.flight import Flight
 from components.info import Info
 from components.allFlights import AllFlights
@@ -32,6 +30,7 @@ class Stats(QWidget):
             if file1.read()!=data:
                 self.alert=self.exception = QMessageBox.critical(self, "Outdated Version", "The version on you computer is outdated, update it <a href='https://github.com/Faizaan-Nasir/TheSimDiary'> here</a>.")     
         self.airports=pd.read_csv("https://raw.githubusercontent.com/datasets/airport-codes/refs/heads/main/data/airport-codes.csv")
+        self.airports.to_csv(resource_path('src/airport-codes.csv'))
         self.aircrafts=pd.read_csv(resource_path("src/ICAOList.csv"), encoding='latin1')
         try:
             self.df=pd.read_csv(resource_path("src/data.csv"))

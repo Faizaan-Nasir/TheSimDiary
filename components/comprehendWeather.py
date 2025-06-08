@@ -1,7 +1,5 @@
 
 from __future__ import print_function
-import urllib
-import urllib.request
 
 from metar import Metar
 def giveWeather(info):

@@ -37,7 +37,7 @@ I assure you of the following:
 
 I appreciate your understanding and support as this project grows into something officially signed and verified.
 
-## 🤓 Development Insights
+## 🤓 Development Insights and Credits
 - **Developed in Python** using **PyQt5** for a responsive and modern desktop UI  
 - **CSS** used for custom styling of UI components  
 - **Pandas** and **Matplotlib** for data processing, summaries, and visualizations  
@@ -46,12 +46,10 @@ I appreciate your understanding and support as this project grows into something
 - **Haversine module** to calculate distances between coordinates  
 - **CSV-based storage** for:
   - Flight logs and fault reports  
-  - **Airport data** (location, ICAO, etc.)  
-  - **Aircraft data** (model, type, performance characteristics)
+  - **Airport data** (location, ICAO, etc.) from [here](https://github.com/datasets/airport-codes)
+  - **Aircraft data** (model, type, performance characteristics) from [here](https://github.com/rikgale/ICAOList)
 
 ## 🐞 Known Issues & Feedback
-### Known Issues
-- Delay in opening Weather Tab
 
 ### Feedback
 As TheSimDiary is still in active development, you may encounter **unexpected behavior or minor bugs** during usage. Your experience and feedback are extremely valuable in helping improve the app.

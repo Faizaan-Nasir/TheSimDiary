@@ -25,9 +25,7 @@ class logBook(QWidget):
         palette = self.palette()
         palette.setBrush(QPalette.Background, QBrush(pixmap))
         self.setPalette(palette)
-        self.airports = pd.read_csv(
-            "https://raw.githubusercontent.com/datasets/airport-codes/refs/heads/main/data/airport-codes.csv"
-        )
+        self.airports = pd.read_csv(resource_path('src/airport-codes.csv'))
         self.aircrafts = pd.read_csv(
             resource_path("src/ICAOList.csv"), encoding="latin1"
         )

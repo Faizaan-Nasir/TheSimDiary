@@ -5,7 +5,6 @@ from PyQt5 import QtCore
 from PyQt5 import QtGui
 import pandas as pd
 import matplotlib
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 matplotlib.use('Qt5Agg')
 from PyQt5.QtGui import *
 import os
@@ -312,7 +311,7 @@ class Table(QTableWidget):
 
 
 if __name__=="__main__":
-    airports=pd.read_csv("https://raw.githubusercontent.com/datasets/airport-codes/refs/heads/main/data/airport-codes.csv")
+    airports=pd.read_csv(resource_path('src/airport-codes.csv'))
     app = QApplication([])
     # window = Weather(airports)
     data=urllib.request.urlopen(f"https://tgftp.nws.noaa.gov/data/observations/metar/stations/VABB.TXT")

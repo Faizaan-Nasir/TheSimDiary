@@ -6,7 +6,6 @@ import matplotlib
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 matplotlib.use('Qt5Agg')
 from PyQt5.QtGui import *
-import os
 from utils import resource_path
 
 base_dir = resource_path()
