@@ -26,11 +26,19 @@ class Stats(QWidget):
     def __init__(self):
         super().__init__()
         with open('./version.txt') as file1:
-            data=urllib.urlopen('https://raw.githubusercontent.com/Faizaan-Nasir/TheSimDiary/refs/heads/main/version.txt').read().decode('utf-8')
-            if file1.read()!=data:
-                self.alert=self.exception = QMessageBox.critical(self, "Outdated Version", "The version on you computer is outdated, update it <a href='https://github.com/Faizaan-Nasir/TheSimDiary'> here</a>.")     
-        self.airports=pd.read_csv("https://raw.githubusercontent.com/datasets/airport-codes/refs/heads/main/data/airport-codes.csv")
-        self.airports.to_csv(resource_path('src/airport-codes.csv'))
+            try:
+                data=urllib.urlopen('https://raw.githubusercontent.com/Faizaan-Nasir/TheSimDiary/refs/heads/main/version.txt').read().decode('utf-8')
+                if file1.read()!=data:
+                    self.exception = QMessageBox.critical(self, "Outdated Version", "The version on you computer is outdated, update it <a href='https://github.com/Faizaan-Nasir/TheSimDiary'> here</a>.")   
+            except:
+                self.exception = QMessageBox.critical(self, "Network Error", "Could not perform version check. This may be due to server issues or your internet connection.")
+        try:   
+            self.airports=pd.read_csv("https://raw.githubusercontent.com/datasets/airport-codes/refs/heads/main/data/airport-codes.csv")
+        except:
+            self.airports=pd.read_csv(resource_path('src/airport-codes.csv'))
+            self.exception = QMessageBox.critical(self, "Network Error", "The airfields data is potentially outdated as the application was not able to update it. This may be due to server issues or your internet connection.")
+            
+        self.airports.to_csv(resource_path('src/airport-codes.csv'),index=False)
         self.aircrafts=pd.read_csv(resource_path("src/ICAOList.csv"), encoding='latin1')
         try:
             self.df=pd.read_csv(resource_path("src/data.csv"))
