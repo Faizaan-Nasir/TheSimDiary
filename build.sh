@@ -4,7 +4,7 @@
 echo "✨ Starting pyinstaller command"
 
 # python3 -m PyInstaller TheSimDiary.spec -y;
-if ! pyinstaller TheSimDiary.spec -y; then 
+if ! python3 -m PyInstaller TheSimDiary.spec -y; then 
 	echo "❌ Something went wrong creating executable with pyinstaller. Aborting"
 	exit 1
 fi
@@ -21,15 +21,15 @@ cp -r "dist/TheSimDiary.app" dist/dmg
 test -f "dist/TheSimDiary.dmg" && rm "dist/TheSimDiary.dmg"
 
 
-if [ ! -f "./src/icon.icns" ]; then 
-	echo "❌ Missing icon.icns file. Aborting"
+if [ ! -f "./src/TheSimDiaryLogo.icns" ]; then 
+	echo "❌ Missing TheSimDiaryLogo.icns file. Aborting"
 	exit 1
 fi
 
 echo "✨ Creating the dmg"
 if ! create-dmg \
   --volname "TheSimDiary" \
-  --volicon "src/icon.icns" \
+  --volicon "src/TheSimDiaryLogo.icns" \
   --window-pos 200 120 \
   --window-size 600 300 \
   --icon-size 100 \

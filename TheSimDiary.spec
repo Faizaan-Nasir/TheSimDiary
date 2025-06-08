@@ -46,6 +46,6 @@ coll = COLLECT(
 app = BUNDLE(
     coll,
     name='TheSimDiary.app',
-    icon='src/icon.icns',
+    icon='src/TheSimDiaryLogo.icns',
     bundle_identifier=None,
 )
