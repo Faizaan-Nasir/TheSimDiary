@@ -25,7 +25,7 @@ base_dir = resource_path()
 class Stats(QWidget):
     def __init__(self):
         super().__init__()
-        with open('./version.txt') as file1:
+        with open(resource_path('version.txt')) as file1:
             try:
                 data=urllib.urlopen('https://raw.githubusercontent.com/Faizaan-Nasir/TheSimDiary/refs/heads/main/version.txt').read().decode('utf-8')
                 if file1.read()!=data:
