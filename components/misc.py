@@ -150,6 +150,12 @@ class Misc(QWidget):
         self.subheading2.setAlignment(QtCore.Qt.AlignCenter)
         self.subheading2.move(0,30)
 
+        self.wip=QLabel(" 🚧 <br> Work in Progress",self.background2)
+        self.wip.setStyleSheet('background: transparent;font-size:22px;font-weight:600;color:#515151')
+        self.wip.setFixedWidth(585)
+        self.wip.setAlignment(QtCore.Qt.AlignCenter)
+        self.wip.move(0,270)
+
 if __name__=="__main__":
     app = QApplication([])
     window = Misc(parent=None)
