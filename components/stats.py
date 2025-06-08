@@ -1,3 +1,4 @@
+import urllib.request
 from components.clock import Clock
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
@@ -19,6 +20,7 @@ from components.weather import Weather
 from components.log import logBook
 from components.misc import Misc
 from utils import resource_path
+import urllib.request as urllib
 
 base_dir = resource_path()
 
@@ -26,10 +28,9 @@ class Stats(QWidget):
     def __init__(self):
         super().__init__()
         with open('./version.txt') as file1:
-            with open('https://raw.githubusercontent.com/Faizaan-Nasir/TheSimDiary/refs/heads/main/version.txt') as file2:
-                if file1.read()!=file2.read():
-                    self.alert=self.exception = QMessageBox.critical(self, "Outdated Version", "The version on you computer is outdated, update it <a href='https://github.com/Faizaan-Nasir/TheSimDiary'> here</a>.")     
-                    self.alert.setTextInteractionFlags(QtCore.Qt.TextBrowserInteraction)
+            data=urllib.urlopen('https://raw.githubusercontent.com/Faizaan-Nasir/TheSimDiary/refs/heads/main/version.txt').read().decode('utf-8')
+            if file1.read()!=data:
+                self.alert=self.exception = QMessageBox.critical(self, "Outdated Version", "The version on you computer is outdated, update it <a href='https://github.com/Faizaan-Nasir/TheSimDiary'> here</a>.")     
         self.airports=pd.read_csv("https://raw.githubusercontent.com/datasets/airport-codes/refs/heads/main/data/airport-codes.csv")
         self.aircrafts=pd.read_csv(resource_path("src/ICAOList.csv"), encoding='latin1')
         try:
