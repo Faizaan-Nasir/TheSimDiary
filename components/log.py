@@ -45,7 +45,7 @@ class logBook(QWidget):
             df.to_csv(get_user_data_path("log"), index=False)
             self.df = df
         self.data = pd.read_csv(get_user_data_path("data"))
-        self.setWindowIcon(QtGui.QIcon(resource_path("src/icon.ico")))
+        self.setWindowIcon(QtGui.QIcon(resource_path("src/TheSimDiaryLogo.ico")))
 
         self.showUI()
 
@@ -223,7 +223,7 @@ class logBook(QWidget):
         self.delWin = QWidget()
         self.delWin.setFixedSize(300, 147)
         self.delWin.setWindowTitle("Delete Record")
-        self.delWin.setWindowIcon(QtGui.QIcon(resource_path("src/icon.ico")))
+        self.delWin.setWindowIcon(QtGui.QIcon(resource_path("src/TheSimDiaryLogo.ico")))
 
         self.csEdit = QLineEdit(parent=self.delWin)
         self.csEdit.setStyleSheet(
@@ -253,7 +253,7 @@ class logBook(QWidget):
         self.addRec = QWidget()
         self.addRec.setFixedSize(300, 450)
         self.addRec.setWindowTitle("Add Record")
-        self.addRec.setWindowIcon(QtGui.QIcon(resource_path("src/icon.ico")))
+        self.addRec.setWindowIcon(QtGui.QIcon(resource_path("src/TheSimDiaryLogo.ico")))
 
         self.dateEdit = QLineEdit(parent=self.addRec)
         self.dateEdit.setStyleSheet(

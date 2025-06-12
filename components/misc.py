@@ -20,7 +20,7 @@ class Misc(QWidget):
         palette = self.palette()
         palette.setBrush(QPalette.Background, QBrush(pixmap))
         self.setPalette(palette)
-        self.setWindowIcon(QtGui.QIcon(resource_path("src/icon.ico")))
+        self.setWindowIcon(QtGui.QIcon(resource_path("src/TheSimDiaryLogo.ico")))
 
         self.showUI()
     

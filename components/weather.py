@@ -31,7 +31,7 @@ class Weather(QWidget):
         palette = self.palette()
         palette.setBrush(QPalette.Background, QBrush(pixmap))
         self.setPalette(palette)
-        self.setWindowIcon(QtGui.QIcon(resource_path("src/icon.ico")))
+        self.setWindowIcon(QtGui.QIcon(resource_path("src/TheSimDiaryLogo.ico")))
         # data=urllib.request.urlopen("https://tgftp.nws.noaa.gov/data/observations/metar/stations/VABB.TXT")
         # for line in data:
         #     print(line.decode("utf-8"))

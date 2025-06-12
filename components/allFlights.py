@@ -29,7 +29,7 @@ class AllFlights(QWidget):
         self.airports=pd.read_csv(get_user_data_path("airports"))
         self.aircrafts=pd.read_csv(resource_path("src/ICAOList.csv"), encoding='latin1')
         self.df=df
-        self.setWindowIcon(QtGui.QIcon(resource_path("src/icon.ico")))
+        self.setWindowIcon(QtGui.QIcon(resource_path("src/TheSimDiaryLogo.ico")))
 
         self.showUI()
     
@@ -181,7 +181,7 @@ class AllFlights(QWidget):
         self.delWin=QWidget()
         self.delWin.setFixedSize(300,147)
         self.delWin.setWindowTitle("Delete Record")
-        self.delWin.setWindowIcon(QtGui.QIcon('./src/icon.ico'))
+        self.delWin.setWindowIcon(QtGui.QIcon('./src/TheSimDiaryLogo.ico'))
 
         self.csEdit=QLineEdit(parent=self.delWin)
         self.csEdit.setStyleSheet('font-size:20px;border:none;background:#A4A4A4;border-radius:10px;padding:10px;color:white;font-weight:400;')
@@ -209,7 +209,7 @@ class AllFlights(QWidget):
         self.addRec=QWidget()
         self.addRec.setFixedSize(300,452)
         self.addRec.setWindowTitle("Add Record")
-        self.addRec.setWindowIcon(QtGui.QIcon('./src/icon.ico'))
+        self.addRec.setWindowIcon(QtGui.QIcon('./src/TheSimDiaryLogo.ico'))
 
         self.csEdit=QLineEdit(parent=self.addRec)
         self.csEdit.setStyleSheet('font-size:20px;border:none;background:#A4A4A4;border-radius:10px;padding:10px;color:white;font-weight:400;')
