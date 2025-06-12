@@ -1,8 +1,8 @@
 pwd.txt
 db.txt
 __pycache__/*
-src/data.csv
-src/log.csv
+data/data.csv
+data/log.csv
 .DS_Store
 build/*
 dist/*

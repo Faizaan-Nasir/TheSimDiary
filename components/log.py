@@ -4,7 +4,7 @@ from PyQt5 import QtCore
 from PyQt5 import QtGui
 import pandas as pd
 import matplotlib
-
+from directories import get_user_data_path
 matplotlib.use("Qt5Agg")
 from PyQt5.QtGui import *
 import os
@@ -25,12 +25,12 @@ class logBook(QWidget):
         palette = self.palette()
         palette.setBrush(QPalette.Background, QBrush(pixmap))
         self.setPalette(palette)
-        self.airports = pd.read_csv(resource_path('src/airport-codes.csv'))
+        self.airports = pd.read_csv(get_user_data_path("airports"))
         self.aircrafts = pd.read_csv(
             resource_path("src/ICAOList.csv"), encoding="latin1"
         )
         try:
-            self.df = pd.read_csv(resource_path("src/log.csv"))
+            self.df = pd.read_csv(get_user_data_path("log"))
         except:
             df = pd.DataFrame(
                 {
@@ -42,9 +42,9 @@ class logBook(QWidget):
                     "callsign": ["SAMPLE"],
                 }
             )
-            df.to_csv(resource_path("src/log.csv"), index=False)
+            df.to_csv(get_user_data_path("log"), index=False)
             self.df = df
-        self.data = pd.read_csv(resource_path("src/data.csv"))
+        self.data = pd.read_csv(get_user_data_path("data"))
         self.setWindowIcon(QtGui.QIcon(resource_path("src/icon.ico")))
 
         self.showUI()
@@ -245,7 +245,7 @@ class logBook(QWidget):
 
     def deleteRecord(self):
         self.df = self.df[self.df.callsign != self.csEdit.text().upper()]
-        self.df.to_csv(resource_path("src/log.csv"), index=False)
+        self.df.to_csv(get_user_data_path("log"), index=False)
         self.allFlights()
         self.delWin.deleteLater()
 
@@ -363,7 +363,7 @@ class logBook(QWidget):
                 ],
                 ignore_index=True,
             )
-            self.df.to_csv(resource_path("src/log.csv"), index=False)
+            self.df.to_csv(get_user_data_path("log"), index=False)
             self.allFlights()
         except Exception as e:
             self.exception = QMessageBox.critical(
@@ -547,7 +547,7 @@ class Table(QTableWidget):
 
 
 if __name__ == "__main__":
-    df = pd.read_csv(resource_path("src/log.csv"))
+    df = pd.read_csv(get_user_data_path("log"))
     app = QApplication([])
     window = logBook(parent=None)
     window.show()

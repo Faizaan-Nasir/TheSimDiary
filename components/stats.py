@@ -18,6 +18,7 @@ from components.weather import Weather
 from components.log import logBook
 from components.misc import Misc
 from utils import resource_path
+from directories import setup_editable_src
 import urllib.request as urllib
 
 base_dir = resource_path()
@@ -35,13 +36,13 @@ class Stats(QWidget):
         try:   
             self.airports=pd.read_csv("https://raw.githubusercontent.com/datasets/airport-codes/refs/heads/main/data/airport-codes.csv")
         except:
-            self.airports=pd.read_csv(resource_path('src/airport-codes.csv'))
+            self.airports=pd.read_csv(setup_editable_src("airports"))
             self.exception = QMessageBox.critical(self, "Network Error", "The airfields data is potentially outdated as the application was not able to update it. This may be due to server issues or your internet connection.")
             
-        self.airports.to_csv(resource_path('src/airport-codes.csv'),index=False)
+        self.airports.to_csv(setup_editable_src("airports"),index=False)
         self.aircrafts=pd.read_csv(resource_path("src/ICAOList.csv"), encoding='latin1')
         try:
-            self.df=pd.read_csv(resource_path("src/data.csv"))
+            self.df=pd.read_csv(setup_editable_src("data"))
         except FileNotFoundError:
             df=pd.DataFrame({"callsign":["SAMPLE"],
                 "aircraft":["B738"],
@@ -50,7 +51,7 @@ class Stats(QWidget):
                 "time":["00:20"],
                 "distance":[151],
                 "date":["21/05/25"]})
-            df.to_csv(resource_path("src/data.csv"),index=False)
+            df.to_csv(setup_editable_src("data"),index=False)
             self.df=df
 
         self.setWindowTitle("Pilot Diary")
@@ -88,6 +89,12 @@ class Stats(QWidget):
         layout.addWidget(self.canvas, alignment=QtCore.Qt.AlignCenter)
         self.GraphArea.setLayout(layout)
         self.plot()
+
+        self.numFlights=QLabel(text=str(self.df.aircraft.count()),parent=self.GraphArea)
+        self.numFlights.setFixedWidth(600)
+        self.numFlights.move(0,280)
+        self.numFlights.setAlignment(QtCore.Qt.AlignCenter)
+        self.numFlights.setStyleSheet("background:rgba(255, 255, 255, 0.0);font-size:35px;font-weight:800;border-radius:10px;color:#727272")
 
         self.background=QWidget(self)
         self.background.setFixedSize(400,300)
@@ -206,7 +213,7 @@ class Stats(QWidget):
         self.Win.show()
 
     def updateInfo(self):
-        self.df=pd.read_csv(resource_path("src/data.csv"))
+        self.df=pd.read_csv(setup_editable_src("data"))
         self.numFlights.deleteLater()
         self.numFlights=QLabel(text=str(self.df.aircraft.count()),parent=self.GraphArea)
         self.numFlights.setFixedWidth(600)
@@ -232,6 +239,7 @@ class Stats(QWidget):
         self.info.show()
         self.PrevFlight.show()
         QTimer.singleShot(1000,self.updateInfo)
+        self.plot()
 
     def updateTime(self):
         self.utcTime.deleteLater()
@@ -247,12 +255,6 @@ class Stats(QWidget):
         temp=self.df["aircraft"].value_counts()
         colors = plt.get_cmap('bone')(np.linspace(0.7,0.2, temp.count()))
         self.figure.clear()
-
-        self.numFlights=QLabel(text=str(self.df.aircraft.count()),parent=self.GraphArea)
-        self.numFlights.setFixedWidth(600)
-        self.numFlights.move(0,280)
-        self.numFlights.setAlignment(QtCore.Qt.AlignCenter)
-        self.numFlights.setStyleSheet("background:rgba(255, 255, 255, 0.0);font-size:35px;font-weight:800;border-radius:10px;color:#727272")
 
         ax = self.figure.add_subplot(111)
         ax.set_position([0.1, 0.1, 0.8, 0.8])
