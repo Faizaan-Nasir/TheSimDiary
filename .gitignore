@@ -1,6 +1,6 @@
 pwd.txt
 db.txt
-__pycache__/*
+__pycache__
 data/data.csv
 data/log.csv
 .DS_Store

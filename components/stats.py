@@ -2,7 +2,7 @@ from components.clock import Clock
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
 from PyQt5 import QtGui
-from PyQt5.QtCore import QTimer
+from PyQt5.QtCore import QObject, QThread, QTimer, pyqtSignal, pyqtSlot
 from datetime import datetime
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -20,26 +20,53 @@ from components.misc import Misc
 from utils import resource_path
 from directories import setup_editable_src
 import urllib.request as urllib
+import threading
 
 base_dir = resource_path()
 
-class Stats(QWidget):
-    def __init__(self):
+class InitialBackgroundTasks(QObject) : 
+    final = pyqtSignal(pd.DataFrame) 
+    exception = pyqtSignal(dict)
+
+    def  __init__(self) :
         super().__init__()
+        print("Background thread: Initialized")
+
+    def run(self) :
         with open(resource_path('version.txt')) as file1:
             try:
                 data=urllib.urlopen('https://raw.githubusercontent.com/Faizaan-Nasir/TheSimDiary/refs/heads/main/version.txt').read().decode('utf-8')
                 if file1.read()!=data:
-                    self.exception = QMessageBox.critical(self, "Outdated Version", "The version on you computer is outdated, update it <a href='https://github.com/Faizaan-Nasir/TheSimDiary'> here</a>.")   
+                    self.exception.emit({"title": "Outdated Version", "desc": "The version on you computer is outdated, update it <a href='https://github.com/Faizaan-Nasir/TheSimDiary'> here</a>."})
             except:
-                self.exception = QMessageBox.critical(self, "Network Error", "Could not perform version check. This may be due to server issues or your internet connection.")
+                self.exception.emit({"title": "Network Error", "desc": "Could not perform version check. This may be due to server issues or your internet connection."})
+        
+        airports = None
         try:   
-            self.airports=pd.read_csv("https://raw.githubusercontent.com/datasets/airport-codes/refs/heads/main/data/airport-codes.csv")
+            airports=pd.read_csv("https://raw.githubusercontent.com/datasets/airport-codes/refs/heads/main/data/airport-codes.csv")
+            print("Background thread: Setting airport to the updated airport")
         except:
-            self.airports=pd.read_csv(setup_editable_src("airports"))
-            self.exception = QMessageBox.critical(self, "Network Error", "The airfields data is potentially outdated as the application was not able to update it. This may be due to server issues or your internet connection.")
+            airports=pd.read_csv(setup_editable_src("airports"))
+            self.exception.emit({"title" : "Network Error", "desc" : "The airfields data is potentially outdated as the application was not able to update it. This may be due to server issues or your internet connection."})
             
-        self.airports.to_csv(setup_editable_src("airports"),index=False)
+        airports.to_csv(setup_editable_src("airports"),index=False)
+        self.final.emit(airports)
+
+class Stats(QWidget):
+
+    @pyqtSlot(pd.DataFrame)
+    def _set_airport(self, result) : 
+        self.airports = result.copy()
+
+
+    @pyqtSlot(dict)
+    def _handle_exception(self, exception) : 
+        self.exception = QMessageBox.critical(self, exception["title"], exception["desc"])
+
+    def __init__(self):
+        super().__init__()
+
+        self.airports=pd.read_csv(setup_editable_src("airports"))
         self.aircrafts=pd.read_csv(resource_path("src/ICAOList.csv"), encoding='latin1')
         try:
             self.df=pd.read_csv(setup_editable_src("data"))
@@ -53,6 +80,23 @@ class Stats(QWidget):
                 "date":["21/05/25"]})
             df.to_csv(setup_editable_src("data"),index=False)
             self.df=df
+
+        
+        # The background tasks. See BackgroundTasks for how to modify whath happens
+
+        self._thread = QThread()
+        self.worker = InitialBackgroundTasks()  
+        self.worker.moveToThread(self._thread)
+        self._thread.started.connect(self.worker.run)
+        self.worker.exception.connect(self._handle_exception)
+        self.worker.final.connect(self._set_airport)
+        self.worker.final.connect(self._thread.quit)
+        self.worker.final.connect(self._thread.deleteLater)
+        self._thread.finished.connect(self._thread.deleteLater)
+        
+        self._thread.start()
+
+        # =============================================================
 
         self.setWindowTitle("TheSimDiary")
         self.setFixedWidth(1400)

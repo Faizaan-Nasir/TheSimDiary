@@ -183,9 +183,8 @@ class Weather(QWidget):
         self.disclaimer.setWordWrap(True)
         self.disclaimer.setAlignment(QtCore.Qt.AlignCenter)
 
-        self.search()
         self.updateTime()
-
+        QTimer.singleShot(0, self.search)
 
     def search(self):
         self.city.clear()
