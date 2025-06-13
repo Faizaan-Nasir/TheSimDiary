@@ -3,7 +3,7 @@
 **TheSimDiary** is a streamlined desktop companion for flight simulation enthusiasts. With an intuitive interface, it centralizes everything you need to enhance and track your virtual flying experience.
 
 ## 📷 User Interface 
-<img width="1512" alt="Screenshot 2025-06-06 at 12 54 35 PM" src="https://github.com/user-attachments/assets/71b7bf53-4104-4222-8c6b-290704686041" />
+![image](https://github.com/user-attachments/assets/f9941693-2a6d-4f75-9b63-12e44dfe8c5e)
 <img width="1512" alt="Screenshot 2025-06-06 at 12 55 53 PM" src="https://github.com/user-attachments/assets/e95e076f-6dfc-4371-a947-f8d3c6742242" />
 
 ## 🌟 Features 
