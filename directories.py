@@ -4,52 +4,46 @@ import shutil
 import platform
 
 def get_resource_path(relative_path):
-    """
-    Get absolute path to resource, works for dev and PyInstaller.
-    """
+    # bundled path being returned
     try:
-        # PyInstaller temporary folder
-        base_path = sys._MEIPASS
+        base_path = sys._MEIPASS  
     except AttributeError:
         base_path = os.path.abspath(".")
 
     return os.path.join(base_path, relative_path)
 
 def get_user_data_path(need):
-    """
-    Returns a writable user path inside Documents/TheSimDiary/data
-    Works cross-platform: Windows, macOS, Linux
-    """
+    # returns AppData for windows and documents for other os
     home = os.path.expanduser("~")
 
     if platform.system() == "Windows":
-        documents = os.path.join(os.environ.get("USERPROFILE", home), "Documents")
+        base_dir = os.path.join(os.environ.get("LOCALAPPDATA", os.path.join(home, "AppData", "Local")), "TheSimDiary", "data")
     else:
-        documents = os.path.join(home, "Documents")
-    if need=="log":
-        return os.path.join(documents, "TheSimDiary", "data","log.csv")
-    elif need=="data":
-        return os.path.join(documents, "TheSimDiary", "data","data.csv")
-    elif need=="airports":
-        return os.path.join(documents, "TheSimDiary", "data","airport-codes.csv")
-    else:
-        return os.path.join(documents, "TheSimDiary", "data")
+        base_dir = os.path.join(home, "Documents", "TheSimDiary", "data")
+
+    match need:
+        case "log":
+            return os.path.join(base_dir, "log.csv")
+        case "data":
+            return os.path.join(base_dir, "data.csv")
+        case "airports":
+            return os.path.join(base_dir, "airport-codes.csv")
+        case _:
+            return base_dir
 
 def setup_editable_src(need):
-    """
-    Copy bundled data folder to user writable folder if missing.
-    Returns the path to the editable src folder.
-    """
+    # should copy bundled data folder to editable data folder
     bundled_src_path = get_resource_path("data")
-    user_src_path = get_user_data_path("init")
+    user_src_path = get_user_data_path("init")  # Gets base dir: AppData/Documents
 
     if not os.path.exists(user_src_path):
         print(f"Copying bundled 'data' folder:\nFrom: {bundled_src_path}\nTo:   {user_src_path}")
         shutil.copytree(bundled_src_path, user_src_path)
-    if need=="log":
-        return os.path.join(user_src_path,"log.csv")
-    elif need=="data":
-        return os.path.join(user_src_path,"data.csv")
-    elif need=="airports":
-        return os.path.join(user_src_path,"airport-codes.csv")
 
+    match need:
+        case "log":
+            return os.path.join(user_src_path, "log.csv")
+        case "data":
+            return os.path.join(user_src_path, "data.csv")
+        case "airports":
+            return os.path.join(user_src_path, "airport-codes.csv")
