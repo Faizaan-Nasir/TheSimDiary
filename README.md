@@ -16,7 +16,7 @@
 
 ## 📚 Instructions 
 Click and download the latest release of the application from the release tab on the right of the GitHub page when available. 
-Run the file appropriate to your machine (.exe for Windows and .pkg for macOS) and the app is yours to discover.
+Run the file appropriate to your machine (.exe for Windows and .dmg for macOS) and the app is yours to discover.
 
 ## ⚠️ Notice on Application Signing and Security 
 
