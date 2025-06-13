@@ -23,7 +23,7 @@ class Weather(QWidget):
     def __init__(self,airports,parent,**kwargs):
         super().__init__(**kwargs)
         self.airports=airports
-        self.setWindowTitle("Pilot Diary")
+        self.setWindowTitle("TheSimDiary")
         self.setFixedWidth(1400)
         self.parent=parent
         self.setFixedHeight(760)

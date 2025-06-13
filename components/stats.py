@@ -54,7 +54,7 @@ class Stats(QWidget):
             df.to_csv(setup_editable_src("data"),index=False)
             self.df=df
 
-        self.setWindowTitle("Pilot Diary")
+        self.setWindowTitle("TheSimDiary")
         self.setFixedWidth(1400)
         self.setFixedHeight(760)
         pixmap = QPixmap(resource_path("src/background.jpg"))
@@ -75,7 +75,7 @@ class Stats(QWidget):
         self.canvas.setStyleSheet("background:transparent;")
         self.canvas.setFixedSize(500,500)
 
-        self.heading=QLabel('The Pilot Diary',parent=self)
+        self.heading=QLabel('TheSimDiary',parent=self)
         self.heading.setFixedWidth(1350)
         self.heading.move(0,40)
         self.heading.setAlignment(QtCore.Qt.AlignCenter)

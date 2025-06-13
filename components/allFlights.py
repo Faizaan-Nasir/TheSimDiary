@@ -18,7 +18,7 @@ base_dir = resource_path()
 class AllFlights(QWidget):
     def __init__(self,df,parent,**kwargs):
         super().__init__(**kwargs)
-        self.setWindowTitle("Pilot Diary")
+        self.setWindowTitle("TheSimDiary")
         self.setFixedWidth(1400)
         self.setFixedHeight(760)
         self.parent=parent
