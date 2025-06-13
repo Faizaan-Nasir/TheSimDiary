@@ -4,7 +4,7 @@
 
 ## 📷 User Interface 
 ![image](https://github.com/user-attachments/assets/f9941693-2a6d-4f75-9b63-12e44dfe8c5e)
-<img width="1512" alt="Screenshot 2025-06-06 at 12 55 53 PM" src="https://github.com/user-attachments/assets/e95e076f-6dfc-4371-a947-f8d3c6742242" />
+<img width="1512" alt="Screenshot 2025-06-13 at 6 03 28 PM" src="https://github.com/user-attachments/assets/ca7dfebe-f0cd-4420-aab1-8dd0493cd754" />
 
 ## 🌟 Features 
 - Log individual flights with detailed information
